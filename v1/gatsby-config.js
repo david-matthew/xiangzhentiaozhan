@@ -5,6 +5,10 @@
  */
 
 module.exports = {
-  /* Your site config here */
+  siteMetadata: {
+    title: `Taiwan Cycle Challenge`,
+    siteUrl: `https://www.cycletaiwan.cc`,
+    description: `Cycle through every town in Taiwan`,
+  },
   plugins: [],
 }

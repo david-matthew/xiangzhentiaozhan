@@ -2,5 +2,5 @@ import React from "react"
 import containerStyles from "./link.module.css"
 
 export default ({ children }) => (
-  <a href="https://strava.com" className={containerStyles.link}>{children}</a>
+  <a href="#" className={containerStyles.link}>{children}</a>
 )

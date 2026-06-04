@@ -1,102 +1,131 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { MapContainer, TileLayer, GeoJSON, Polyline, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Polyline } from 'react-leaflet'
 import * as turf from '@turf/turf'
+import * as topojson from 'topojson-client'
 import 'leaflet/dist/leaflet.css'
 import './MapPage.css'
 
 const SERVER = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001'
 
+const TOWN_FILES = [
+  '09007','09020','10002','10004','10005','10007','10008','10009',
+  '10010','10013','10014','10015','10016','10017','10018','10020',
+  '63000','64000','65000','66000','67000','68000',
+]
+
+const TOTAL_TOWNS   = 368
+const TOTAL_COUNTIES = 22
+
 export default function MapPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const accessToken  = searchParams.get('access_token')
-  const athleteName  = searchParams.get('athlete_name')
+  const accessToken = searchParams.get('access_token')
+  const athleteName = searchParams.get('athlete_name')
 
-  const [activities, setActivities] = useState([])
-  const [geojson, setGeojson]       = useState(null)
-  const [loading, setLoading]       = useState(true)
-  const [error, setError]           = useState(null)
-  const [showRides, setShowRides]   = useState(true)
+  const [activities,   setActivities]   = useState([])
+  const [countyGeo,    setCountyGeo]    = useState(null)
+  const [townFeatures, setTownFeatures] = useState([])
+  const [loading,      setLoading]      = useState(true)
+  const [error,        setError]        = useState(null)
+  const [showRides,    setShowRides]    = useState(true)
 
-  // Redirect to landing if no token
   useEffect(() => {
     if (!accessToken) navigate('/')
   }, [accessToken, navigate])
 
-  // Fetch GeoJSON and activities in parallel
   useEffect(() => {
     if (!accessToken) return
     setLoading(true)
+    const townFetches = TOWN_FILES.map((slug) =>
+      fetch(`/towns-${slug}.json`).then((r) => r.json())
+    )
     Promise.all([
       fetch('/twCounty2010.geojson').then((r) => r.json()),
       fetch(`${SERVER}/activities?access_token=${accessToken}`).then((r) => r.json()),
+      ...townFetches,
     ])
-      .then(([geo, data]) => {
-        if (data.error) throw new Error(data.error)
-        setGeojson(geo)
-        setActivities(data.activities)
+      .then(([counties, actData, ...topoFiles]) => {
+        if (actData.error) throw new Error(actData.error)
+        setCountyGeo(counties)
+        setActivities(actData.activities)
+        const features = topoFiles.flatMap((topo) =>
+          topojson.feature(topo, topo.objects.map).features
+        )
+        setTownFeatures(features)
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, [accessToken])
 
-  const TOTAL_TOWNSHIPS = geojson ? geojson.features.length : 368
-
-  // Compute visited township IDs using turf point-in-polygon
-  const visitedIds = useMemo(() => {
-    if (!activities.length || !geojson) return new Set()
-    const visited = new Set()
-
-    // Collect all GPS points across all rides
-    const allPoints = activities.flatMap((a) => a.points)
-
-    geojson.features.forEach((feature) => {
-      // Sample every 5th point for performance
-      const hit = allPoints.some((_, i) => {
-        if (i % 5 !== 0) return false
-        const [lat, lon] = allPoints[i]
-        const pt = turf.point([lon, lat])
-        try {
-          return turf.booleanPointInPolygon(pt, feature)
-        } catch {
-          return false
-        }
-      })
-      if (hit) visited.add(feature.properties.TOWNID || feature.properties.T_Id || feature.id)
-    })
-
-    return visited
-  }, [activities, geojson])
-
-  // GeoJSON style per feature
-  function townStyle(feature) {
-    const id = feature.properties.TOWNID || feature.properties.T_Id || feature.id
-    const visited = visitedIds.has(id)
-    return {
-      fillColor:   visited ? '#f97316' : '#1e293b',
-      fillOpacity: visited ? 0.65 : 0.4,
-      color:       visited ? '#fb923c' : '#334155',
-      weight:      visited ? 1.5 : 0.5,
-    }
-  }
-
-  function onEachTown(feature, layer) {
-    const name = feature.properties.TOWNNAME || feature.properties.T_Name || ''
-    const county = feature.properties.COUNTYNAME || feature.properties.C_Name || ''
-    if (name) {
-      layer.bindTooltip(`${county} · ${name}`, {
-        sticky: true,
-        className: 'town-tooltip',
-      })
-    }
-  }
-
-  const rideLines = useMemo(() =>
-    activities.map((a) => a.points.map(([lat, lon]) => [lat, lon])),
+  const allPoints = useMemo(
+    () => activities.flatMap((a) => a.points),
     [activities]
   )
+
+  const visitedTownIds = useMemo(() => {
+    if (!allPoints.length || !townFeatures.length) return new Set()
+    const visited = new Set()
+    townFeatures.forEach((feature) => {
+      const hit = allPoints.some((pt, i) => {
+        if (i % 5 !== 0) return false
+        try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
+        catch { return false }
+      })
+      if (hit) visited.add(feature.properties.id)
+    })
+    return visited
+  }, [allPoints, townFeatures])
+
+  const visitedCountyIds = useMemo(() => {
+    if (!allPoints.length || !countyGeo) return new Set()
+    const visited = new Set()
+    countyGeo.features.forEach((feature) => {
+      const id = feature.properties.COUNTYSN || feature.properties.COUNTYNAME
+      const hit = allPoints.some((pt, i) => {
+        if (i % 5 !== 0) return false
+        try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
+        catch { return false }
+      })
+      if (hit) visited.add(id)
+    })
+    return visited
+  }, [allPoints, countyGeo])
+
+  const countyStyle = useMemo(() => (feature) => {
+    const id = feature.properties.COUNTYSN || feature.properties.COUNTYNAME
+    const visited = visitedCountyIds.has(id)
+    return {
+      fillColor:   'transparent',
+      fillOpacity: 0,
+      color:       visited ? '#16a34a' : '#9ca3af',
+      weight:      visited ? 2.5 : 1.5,
+    }
+  }, [visitedCountyIds])
+
+  const townStyle = useMemo(() => (feature) => {
+    const visited = visitedTownIds.has(feature.properties.id)
+    return {
+      fillColor:   visited ? '#4ade80' : '#e5e7eb',
+      fillOpacity: visited ? 0.6 : 0.5,
+      color:       visited ? '#16a34a' : '#d1d5db',
+      weight:      visited ? 1.2 : 0.6,
+    }
+  }, [visitedTownIds])
+
+  function onEachTown(feature, layer) {
+    const name = feature.properties.name || ''
+    if (name) layer.bindTooltip(name, { sticky: true, className: 'town-tooltip' })
+  }
+
+  const rideLines = useMemo(
+    () => activities.map((a) => a.points.map(([lat, lon]) => [lat, lon])),
+    [activities]
+  )
+
+  const totalKm       = (activities.reduce((s, a) => s + a.distance,  0) / 1000).toFixed(0)
+  const totalElevation = activities.reduce((s, a) => s + a.elevation, 0).toFixed(0)
 
   if (loading) return (
     <div className="map-loading">
@@ -115,104 +144,104 @@ export default function MapPage() {
 
   return (
     <div className="map-layout">
-      {/* ── Panel ── */}
       <aside className="map-panel">
+        {/* Title */}
         <div className="panel-header">
-          <span className="panel-icon">🚴</span>
-          <div>
-            <h1>Taiwan Ride Explorer</h1>
-            {athleteName && <p className="panel-athlete">Hi, {athleteName}!</p>}
-          </div>
+          <h1>Taiwan Township Challenge</h1>
+          <p className="panel-subtitle">台灣鄉鎮挑戰</p>
+          {athleteName && <p className="panel-athlete">Showing data for {athleteName}</p>}
         </div>
 
-        {/* Counter */}
-        <div className="counter-card">
-          <div className="counter-main">
-            <span className="counter-num">{visitedIds.size}</span>
-            <span className="counter-denom"> / {TOTAL_TOWNSHIPS}</span>
-          </div>
-          <div className="counter-label">townships explored</div>
-          <div className="counter-bar-wrap">
-            <div
-              className="counter-bar"
-              style={{ width: `${(visitedIds.size / TOTAL_TOWNSHIPS) * 100}%` }}
-            />
-          </div>
-          <div className="counter-pct">
-            {((visitedIds.size / TOTAL_TOWNSHIPS) * 100).toFixed(1)}% of Taiwan
-          </div>
-        </div>
-
-        {/* Stats */}
+        {/* Strava stats */}
         <div className="stats-grid">
           <div className="stat">
             <div className="stat-val">{activities.length}</div>
-            <div className="stat-lbl">rides in Taiwan</div>
+            <div className="stat-lbl">rides</div>
           </div>
           <div className="stat">
-            <div className="stat-val">
-              {(activities.reduce((s, a) => s + a.distance, 0) / 1000).toFixed(0)}
-            </div>
+            <div className="stat-val">{totalKm}</div>
             <div className="stat-lbl">km total</div>
           </div>
           <div className="stat">
-            <div className="stat-val">
-              {activities.reduce((s, a) => s + a.elevation, 0).toFixed(0)}
-            </div>
-            <div className="stat-lbl">m elevation</div>
+            <div className="stat-val">{totalElevation}</div>
+            <div className="stat-lbl">elevation</div>
           </div>
+        </div>
+
+        {/* Counties counter */}
+        <div className="counter-card">
+          <div className="counter-label-top">縣市 Counties &amp; Cities</div>
+          <div className="counter-row">
+            <span className="counter-num">{visitedCountyIds.size}</span>
+            <span className="counter-denom">/ {TOTAL_COUNTIES}</span>
+          </div>
+          <div className="counter-bar-wrap">
+            <div className="counter-bar county" style={{ width: `${(visitedCountyIds.size / TOTAL_COUNTIES) * 100}%` }} />
+          </div>
+        </div>
+
+        {/* Townships counter */}
+        <div className="counter-card">
+          <div className="counter-label-top">鄉鎮市區 Townships</div>
+          <div className="counter-row">
+            <span className="counter-num">{visitedTownIds.size}</span>
+            <span className="counter-denom">/ {TOTAL_TOWNS}</span>
+          </div>
+          <div className="counter-bar-wrap">
+            <div className="counter-bar town" style={{ width: `${(visitedTownIds.size / TOTAL_TOWNS) * 100}%` }} />
+          </div>
+          <div className="counter-pct">{((visitedTownIds.size / TOTAL_TOWNS) * 100).toFixed(1)}% of Taiwan</div>
         </div>
 
         {/* Controls */}
         <label className="toggle">
-          <input
-            type="checkbox"
-            checked={showRides}
-            onChange={() => setShowRides(!showRides)}
-          />
+          <input type="checkbox" checked={showRides} onChange={() => setShowRides(!showRides)} />
           Show ride routes
         </label>
 
         {/* Legend */}
         <div className="legend">
-          <div className="legend-row">
-            <span className="swatch visited" /> Visited township
-          </div>
-          <div className="legend-row">
-            <span className="swatch unvisited" /> Unvisited township
-          </div>
-          {showRides && (
-            <div className="legend-row">
-              <span className="swatch route" /> Ride route
-            </div>
-          )}
+          <div className="legend-row"><span className="swatch town-visited" /> Visited township</div>
+          <div className="legend-row"><span className="swatch town-unvisited" /> Unvisited township</div>
+          <div className="legend-row"><span className="swatch county-border" /> County border</div>
+          {showRides && <div className="legend-row"><span className="swatch route" /> Ride route</div>}
         </div>
 
         <button className="back-btn" onClick={() => navigate('/')}>← Disconnect</button>
       </aside>
 
-      {/* ── Map ── */}
       <main className="map-main">
-        <MapContainer
-          center={[23.6, 121.0]}
-          zoom={7}
-          style={{ height: '100%', width: '100%' }}
-        >
+        <MapContainer center={[23.6, 121.0]} zoom={7} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             attribution='&copy; <a href="https://carto.com/">Carto</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
           />
-          {geojson && <GeoJSON
-            key={visitedIds.size}
-            data={geojson}
-            style={townStyle}
-            onEachFeature={onEachTown}
-          />}
+
+          {/* Towns — interactive for tooltips */}
+          {townFeatures.length > 0 && (
+            <GeoJSON
+              key={`towns-${visitedTownIds.size}`}
+              data={{ type: 'FeatureCollection', features: townFeatures }}
+              style={townStyle}
+              onEachFeature={onEachTown}
+            />
+          )}
+
+          {/* Counties — non-interactive so town tooltips work */}
+          {countyGeo && (
+            <GeoJSON
+              key={`counties-${visitedCountyIds.size}`}
+              data={countyGeo}
+              style={countyStyle}
+              interactive={false}
+            />
+          )}
+
           {showRides && rideLines.map((pts, i) => (
             <Polyline
               key={i}
               positions={pts}
-              pathOptions={{ color: '#f97316', weight: 2, opacity: 0.7 }}
+              pathOptions={{ color: '#16a34a', weight: 2, opacity: 0.7 }}
             />
           ))}
         </MapContainer>

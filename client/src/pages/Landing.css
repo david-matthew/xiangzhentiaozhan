@@ -1,0 +1,90 @@
+.landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  padding: 24px;
+}
+
+.landing-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 48px 40px;
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.landing-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.landing-card h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #f9fafb;
+  margin-bottom: 6px;
+}
+
+.landing-sub {
+  font-size: 16px;
+  color: #818cf8;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
+}
+
+.landing-desc {
+  font-size: 14px;
+  color: #9ca3af;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.feature {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #d1d5db;
+}
+
+.strava-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fc4c02;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.strava-btn:hover {
+  background: #e84502;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(252, 76, 2, 0.4);
+}
+.strava-btn:active { transform: translateY(0); }
+
+.landing-note {
+  font-size: 11px;
+  color: #4b5563;
+}

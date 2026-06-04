@@ -171,11 +171,23 @@
 .town-tooltip {
   background: #ffffff !important;
   border: 1px solid #e5e7eb !important;
-  color: #111827 !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  border-radius: 6px !important;
-  padding: 4px 8px !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1) !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 .town-tooltip::before { display: none !important; }
+.tt-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 5px;
+}
+.tt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.tt-lbl { color: #9ca3af; }
+.tt-val { color: #374151; font-weight: 500; }

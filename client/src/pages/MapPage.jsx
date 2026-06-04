@@ -64,19 +64,33 @@ export default function MapPage() {
     [activities]
   )
 
-  const visitedTownIds = useMemo(() => {
-    if (!allPoints.length || !townFeatures.length) return new Set()
-    const visited = new Set()
+  // Map of townId → { count, lastDate } for visited towns
+  const townVisitData = useMemo(() => {
+    if (!activities.length || !townFeatures.length) return new Map()
+    const data = new Map()
     townFeatures.forEach((feature) => {
-      const hit = allPoints.some((pt, i) => {
-        if (i % 5 !== 0) return false
-        try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
-        catch { return false }
+      const id = feature.properties.id
+      activities.forEach((activity) => {
+        const pts = activity.points
+        const hit = pts.some((pt, i) => {
+          if (i % 5 !== 0) return false
+          try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
+          catch { return false }
+        })
+        if (hit) {
+          const prev = data.get(id)
+          const date = new Date(activity.date)
+          data.set(id, {
+            count: (prev?.count ?? 0) + 1,
+            lastDate: !prev || date > prev.lastDate ? date : prev.lastDate,
+          })
+        }
       })
-      if (hit) visited.add(feature.properties.id)
     })
-    return visited
-  }, [allPoints, townFeatures])
+    return data
+  }, [activities, townFeatures])
+
+  const visitedTownIds = useMemo(() => new Set(townVisitData.keys()), [townVisitData])
 
   const visitedCountyIds = useMemo(() => {
     if (!allPoints.length || !countyGeo) return new Set()
@@ -114,10 +128,20 @@ export default function MapPage() {
     }
   }, [visitedTownIds])
 
-  function onEachTown(feature, layer) {
+  const onEachTown = useMemo(() => (feature, layer) => {
     const name = feature.properties.name || ''
-    if (name) layer.bindTooltip(name, { sticky: true, className: 'town-tooltip' })
-  }
+    const visit = townVisitData.get(feature.properties.id)
+    const lastVisited = visit
+      ? visit.lastDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+      : '—'
+    const totalVisits = visit ? visit.count : 0
+    const html = `
+      <div class="tt-name">${name}</div>
+      <div class="tt-row"><span class="tt-lbl">Last visited</span><span class="tt-val">${lastVisited}</span></div>
+      <div class="tt-row"><span class="tt-lbl">Total visits</span><span class="tt-val">${totalVisits}</span></div>
+    `
+    layer.bindTooltip(html, { sticky: true, className: 'town-tooltip' })
+  }, [townVisitData])
 
   const rideLines = useMemo(
     () => activities.map((a) => a.points.map(([lat, lon]) => [lat, lon])),
@@ -147,8 +171,8 @@ export default function MapPage() {
       <aside className="map-panel">
         {/* Title */}
         <div className="panel-header">
-          <h1>Taiwan Township Challenge</h1>
-          <p className="panel-subtitle">台灣鄉鎮挑戰</p>
+          <h1>Taiwan City, District and Township Challenge</h1>
+          <p className="panel-subtitle">台灣鄉鎮市區挑戰</p>
           {athleteName && <p className="panel-athlete">Showing data for {athleteName}</p>}
         </div>
 
@@ -164,7 +188,7 @@ export default function MapPage() {
           </div>
           <div className="stat">
             <div className="stat-val">{totalElevation}</div>
-            <div className="stat-lbl">elevation</div>
+            <div className="stat-lbl">elevation (m)</div>
           </div>
         </div>
 

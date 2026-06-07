@@ -5,31 +5,37 @@ const axios    = require("axios");
 const session  = require("express-session");
 const { v4: uuidv4 } = require("uuid");
 
-const app       = express();
+const app         = express();
 const PORT        = process.env.PORT || 3001;
-const CLIENT_URL  = process.env.CLIENT_URL  || "http://localhost:5173";  // full app URL for redirects
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || CLIENT_URL;           // origin only for CORS
+const CLIENT_URL  = process.env.CLIENT_URL  || "http://localhost:5173";
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || CLIENT_URL;
 const IS_PROD     = process.env.NODE_ENV === "production";
 
-// ── CORS — allow credentials so session cookie works cross-origin ────────────
-app.use(cors({
-  origin: CLIENT_ORIGIN,
-  credentials: true,
-}));
+// ── CORS ─────────────────────────────────────────────────────────────────────
+app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
 app.use(express.json());
 
-// ── Session — stores Strava tokens server-side ───────────────────────────────
+// ── Session ───────────────────────────────────────────────────────────────────
 app.use(session({
   secret: process.env.SESSION_SECRET || "dev-secret-change-in-prod",
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: IS_PROD,      // HTTPS only in production
+    secure:   IS_PROD,
     sameSite: IS_PROD ? "none" : "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge:   7 * 24 * 60 * 60 * 1000,
   },
 }));
+
+// ── Short-lived exchange token store (in-memory, expires in 2 minutes) ───────
+const pendingExchanges = new Map();
+function createExchangeToken(payload) {
+  const token = uuidv4();
+  pendingExchanges.set(token, { ...payload, createdAt: Date.now() });
+  setTimeout(() => pendingExchanges.delete(token), 2 * 60 * 1000);
+  return token;
+}
 
 // ── Taiwan bounding box ───────────────────────────────────────────────────────
 const TW = { latMin: 21.5, latMax: 25.6, lonMin: 119.0, lonMax: 122.5 };
@@ -57,8 +63,6 @@ function decodePolyline(encoded) {
 async function getValidToken(req) {
   const { access_token, refresh_token, token_expires_at } = req.session;
   if (!access_token) throw new Error("Not authenticated");
-
-  // Refresh if token expires within 5 minutes
   if (Date.now() / 1000 > token_expires_at - 300) {
     console.log("Token expired — refreshing…");
     const { data } = await axios.post("https://www.strava.com/oauth/token", {
@@ -67,17 +71,16 @@ async function getValidToken(req) {
       grant_type:    "refresh_token",
       refresh_token,
     });
-    req.session.access_token    = data.access_token;
-    req.session.refresh_token   = data.refresh_token;
+    req.session.access_token     = data.access_token;
+    req.session.refresh_token    = data.refresh_token;
     req.session.token_expires_at = data.expires_at;
-    return data.access_token;
   }
-  return access_token;
+  return req.session.access_token;
 }
 
-// ── Routes ───────────────────────────────────────────────────────────────────
+// ── Routes ────────────────────────────────────────────────────────────────────
 
-// Step 1: redirect user to Strava
+// Step 1: redirect to Strava
 app.get("/auth/strava", (req, res) => {
   const params = new URLSearchParams({
     client_id:       process.env.STRAVA_CLIENT_ID,
@@ -89,11 +92,11 @@ app.get("/auth/strava", (req, res) => {
   res.redirect(`https://www.strava.com/oauth/authorize?${params}`);
 });
 
-// Step 2: Strava redirects back with ?code= — exchange for tokens, store in session
+// Step 2: Strava callback — exchange code for tokens, create exchange token,
+//         redirect to client with a short-lived one-time code (not the real token)
 app.get("/auth/callback", async (req, res) => {
   const { code, error } = req.query;
   if (error || !code) return res.redirect(`${CLIENT_URL}/#/?error=access_denied`);
-
   try {
     const { data } = await axios.post("https://www.strava.com/oauth/token", {
       client_id:     process.env.STRAVA_CLIENT_ID,
@@ -101,44 +104,47 @@ app.get("/auth/callback", async (req, res) => {
       code,
       grant_type: "authorization_code",
     });
-
-    // Store tokens in server-side session — never sent to the browser
-    req.session.access_token     = data.access_token;
-    req.session.refresh_token    = data.refresh_token;
-    req.session.token_expires_at  = data.expires_at;
-
-    // Explicitly save session before redirecting so cookie is set in time
     const athleteName = [data.athlete.firstname, data.athlete.lastname]
       .filter(Boolean).join(" ");
-    const params = new URLSearchParams({ name: athleteName });
-    req.session.save((err) => {
-      if (err) console.error("Session save error:", err);
-      res.redirect(`${CLIENT_URL}/#/map?${params}`);
+    const exchangeToken = createExchangeToken({
+      access_token:     data.access_token,
+      refresh_token:    data.refresh_token,
+      token_expires_at: data.expires_at,
     });
+    const params = new URLSearchParams({ name: athleteName, exchange: exchangeToken });
+    res.redirect(`${CLIENT_URL}/#/map?${params}`);
   } catch (err) {
     console.error("Token exchange failed:", err.response?.data || err.message);
     res.redirect(`${CLIENT_URL}/#/?error=token_exchange`);
   }
 });
 
-// Step 3: Check auth status (client calls this on load to verify session is alive)
-app.get("/auth/me", (req, res) => {
-  if (!req.session.access_token) return res.status(401).json({ error: "Not authenticated" });
-  res.json({ ok: true });
+// Step 3: client calls this with the one-time exchange token to get a session cookie
+app.post("/auth/exchange", (req, res) => {
+  const { token } = req.body;
+  const payload = pendingExchanges.get(token);
+  if (!payload) return res.status(400).json({ error: "Invalid or expired exchange token" });
+  pendingExchanges.delete(token);
+  req.session.access_token     = payload.access_token;
+  req.session.refresh_token    = payload.refresh_token;
+  req.session.token_expires_at = payload.token_expires_at;
+  req.session.save((err) => {
+    if (err) return res.status(500).json({ error: "Session save failed" });
+    res.json({ ok: true });
+  });
 });
 
-// Step 4: Log out — destroy session
+// Step 4: logout
 app.post("/auth/logout", (req, res) => {
   req.session.destroy(() => res.json({ ok: true }));
 });
 
-// Step 5: Fetch Taiwan cycling activities
+// Step 5: fetch Taiwan cycling activities
 app.get("/activities", async (req, res) => {
   try {
     const access_token = await getValidToken(req);
     const activities = [];
     let page = 1;
-
     while (true) {
       const { data } = await axios.get("https://www.strava.com/api/v3/athlete/activities", {
         headers: { Authorization: `Bearer ${access_token}` },
@@ -149,7 +155,6 @@ app.get("/activities", async (req, res) => {
       if (data.length < 100) break;
       page++;
     }
-
     const cyclingTypes = ["Ride", "VirtualRide", "EBikeRide", "MountainBikeRide", "GravelRide"];
     const taiwanRides = activities
       .filter((a) => cyclingTypes.includes(a.type) || cyclingTypes.includes(a.sport_type))
@@ -163,7 +168,6 @@ app.get("/activities", async (req, res) => {
         elevation: a.total_elevation_gain,
         points:    decodePolyline(a.map.summary_polyline).filter(([lat, lon]) => inTaiwan(lat, lon)),
       }));
-
     res.json({ count: taiwanRides.length, activities: taiwanRides });
   } catch (err) {
     const status = err.message === "Not authenticated" ? 401 : 500;

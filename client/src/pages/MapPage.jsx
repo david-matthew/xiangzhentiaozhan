@@ -34,7 +34,8 @@ export default function MapPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const athleteName = searchParams.get('name')
+  const athleteName    = searchParams.get('name')
+  const exchangeToken  = searchParams.get('exchange')
 
   const [activities,   setActivities]   = useState([])
   const [countyGeo,    setCountyGeo]    = useState(null)
@@ -46,17 +47,30 @@ export default function MapPage() {
   useEffect(() => {
     setLoading(true)
     const base = import.meta.env.BASE_URL
+
+    // If we have an exchange token, redeem it for a session first
+    const sessionPromise = exchangeToken
+      ? fetch(`${SERVER}/auth/exchange`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: exchangeToken }),
+        }).then((r) => { if (!r.ok) throw new Error('Auth exchange failed') })
+      : Promise.resolve()
+
     const townFetches = TOWN_FILES.map((slug) =>
       fetch(`${base}towns-${slug}.json`).then((r) => r.json())
     )
-    Promise.all([
-      fetch(`${base}twCounty2010.geojson`).then((r) => r.json()),
-      fetch(`${SERVER}/activities`, { credentials: 'include' }).then((r) => {
-        if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
-        return r.json()
-      }),
-      ...townFetches,
-    ])
+
+    sessionPromise
+      .then(() => Promise.all([
+        fetch(`${base}twCounty2010.geojson`).then((r) => r.json()),
+        fetch(`${SERVER}/activities`, { credentials: 'include' }).then((r) => {
+          if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
+          return r.json()
+        }),
+        ...townFetches,
+      ]))
       .then(([counties, actData, ...topoFiles]) => {
         if (actData.error) throw new Error(actData.error)
         setCountyGeo(counties)

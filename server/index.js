@@ -6,13 +6,14 @@ const session  = require("express-session");
 const { v4: uuidv4 } = require("uuid");
 
 const app       = express();
-const PORT      = process.env.PORT || 3001;
-const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
-const IS_PROD   = process.env.NODE_ENV === "production";
+const PORT        = process.env.PORT || 3001;
+const CLIENT_URL  = process.env.CLIENT_URL  || "http://localhost:5173";  // full app URL for redirects
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || CLIENT_URL;           // origin only for CORS
+const IS_PROD     = process.env.NODE_ENV === "production";
 
 // ── CORS — allow credentials so session cookie works cross-origin ────────────
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: CLIENT_ORIGIN,
   credentials: true,
 }));
 app.use(express.json());

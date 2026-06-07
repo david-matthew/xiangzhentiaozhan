@@ -45,11 +45,12 @@ export default function MapPage() {
 
   useEffect(() => {
     setLoading(true)
+    const base = import.meta.env.BASE_URL
     const townFetches = TOWN_FILES.map((slug) =>
-      fetch(`/towns-${slug}.json`).then((r) => r.json())
+      fetch(`${base}towns-${slug}.json`).then((r) => r.json())
     )
     Promise.all([
-      fetch('/twCounty2010.geojson').then((r) => r.json()),
+      fetch(`${base}twCounty2010.geojson`).then((r) => r.json()),
       fetch(`${SERVER}/activities`, { credentials: 'include' }).then((r) => {
         if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
         return r.json()
@@ -66,7 +67,7 @@ export default function MapPage() {
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
-  }, [accessToken])
+  }, [])
 
   // Pre-build turf lines per activity (used for intersection checks)
   const activityLineGroups = useMemo(

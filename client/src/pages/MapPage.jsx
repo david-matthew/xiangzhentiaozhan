@@ -17,8 +17,13 @@ const TOWN_FILES = [
 const TOTAL_TOWNS    = 368
 const TOTAL_COUNTIES = 22
 
-// Build a turf LineString from activity points [[lat,lon],...]
-// Splits into chunks of 500 to avoid turf coordinate limits
+const LOAD_STEPS = [
+  'Authenticating with Strava…',
+  'Loading map data…',
+  'Fetching your rides…',
+  'Processing routes…',
+]
+
 function activityLines(points) {
   const coords = points.map(([lat, lon]) => [lon, lat])
   if (coords.length < 2) return []
@@ -34,24 +39,25 @@ export default function MapPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const athleteName   = searchParams.get('name')
-  const accessToken   = searchParams.get('access_token')
-  const refreshToken  = searchParams.get('refresh_token')
-  const expiresAt     = searchParams.get('expires_at')
+  const athleteName  = searchParams.get('name')
+  const accessToken  = searchParams.get('access_token')
+  const refreshToken = searchParams.get('refresh_token')
+  const expiresAt    = searchParams.get('expires_at')
 
-  // Store tokens in sessionStorage so they survive a page refresh within the tab
   useEffect(() => {
     if (accessToken)  sessionStorage.setItem('strava_access_token',  accessToken)
     if (refreshToken) sessionStorage.setItem('strava_refresh_token', refreshToken)
     if (expiresAt)    sessionStorage.setItem('strava_expires_at',    expiresAt)
-  }, [accessToken, refreshToken, expiresAt])
+    if (athleteName)  sessionStorage.setItem('strava_athlete_name',  athleteName)
+  }, [accessToken, refreshToken, expiresAt, athleteName])
+
+  const storedName = athleteName || sessionStorage.getItem('strava_athlete_name')
 
   const getToken = async () => {
-    let token   = sessionStorage.getItem('strava_access_token')
-    const exp   = Number(sessionStorage.getItem('strava_expires_at') || 0)
-    const rTok  = sessionStorage.getItem('strava_refresh_token')
+    let token  = sessionStorage.getItem('strava_access_token')
+    const exp  = Number(sessionStorage.getItem('strava_expires_at') || 0)
+    const rTok = sessionStorage.getItem('strava_refresh_token')
     if (!token) throw new Error('Not authenticated. Please reconnect with Strava.')
-    // Refresh if within 5 minutes of expiry
     if (rTok && Date.now() / 1000 > exp - 300) {
       const r = await fetch(`${SERVER}/auth/refresh`, {
         method: 'POST',
@@ -68,33 +74,40 @@ export default function MapPage() {
     return token
   }
 
-  const [activities,   setActivities]   = useState([])
-  const [countyGeo,    setCountyGeo]    = useState(null)
-  const [townFeatures, setTownFeatures] = useState([])
-  const [loading,      setLoading]      = useState(true)
-  const [error,        setError]        = useState(null)
-  const [showRides,    setShowRides]    = useState(true)
+  const [activities,    setActivities]    = useState([])
+  const [countyGeo,     setCountyGeo]     = useState(null)
+  const [townFeatures,  setTownFeatures]  = useState([])
+  const [loading,       setLoading]       = useState(true)
+  const [loadStep,      setLoadStep]      = useState(0)
+  const [error,         setError]         = useState(null)
+  const [showRides,     setShowRides]     = useState(true)
+  const [sidebarOpen,   setSidebarOpen]   = useState(false)
 
   useEffect(() => {
-    setLoading(true)
     const base = import.meta.env.BASE_URL
-    const townFetches = TOWN_FILES.map((slug) =>
-      fetch(`${base}towns-${slug}.json`).then((r) => r.json())
-    )
 
+    setLoadStep(0) // Authenticating
     getToken()
-      .then((token) => Promise.all([
-        fetch(`${base}twCounty2010.geojson`).then((r) => r.json()),
-        fetch(`${SERVER}/activities`, {
+      .then((token) => {
+        setLoadStep(1) // Loading map data
+        const townFetches = TOWN_FILES.map((slug) =>
+          fetch(`${base}towns-${slug}.json`).then((r) => r.json())
+        )
+        const mapFetch = fetch(`${base}twCounty2010.geojson`).then((r) => r.json())
+
+        setLoadStep(2) // Fetching rides
+        const activitiesFetch = fetch(`${SERVER}/activities`, {
           headers: { Authorization: `Bearer ${token}` },
         }).then((r) => {
           if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
           return r.json()
-        }),
-        ...townFetches,
-      ]))
+        })
+
+        return Promise.all([mapFetch, activitiesFetch, ...townFetches])
+      })
       .then(([counties, actData, ...topoFiles]) => {
         if (actData.error) throw new Error(actData.error)
+        setLoadStep(3) // Processing
         setCountyGeo(counties)
         setActivities(actData.activities)
         setTownFeatures(
@@ -105,13 +118,11 @@ export default function MapPage() {
       .finally(() => setLoading(false))
   }, [])
 
-  // Pre-build turf lines per activity (used for intersection checks)
   const activityLineGroups = useMemo(
     () => activities.map((a) => ({ ...a, lines: activityLines(a.points) })),
     [activities]
   )
 
-  // For each town, find which activities intersected it
   const townVisitData = useMemo(() => {
     if (!activityLineGroups.length || !townFeatures.length) return new Map()
     const data = new Map()
@@ -121,13 +132,8 @@ export default function MapPage() {
         if (!activity.lines.length) return
         const hit = activity.lines.some((line) => {
           try {
-            // First cheap check: bounding box overlap
-            const lineBbox   = turf.bbox(line)
-            const featureBbox = turf.bbox(feature)
-            if (
-              lineBbox[2] < featureBbox[0] || lineBbox[0] > featureBbox[2] ||
-              lineBbox[3] < featureBbox[1] || lineBbox[1] > featureBbox[3]
-            ) return false
+            const lb = turf.bbox(line), fb = turf.bbox(feature)
+            if (lb[2] < fb[0] || lb[0] > fb[2] || lb[3] < fb[1] || lb[1] > fb[3]) return false
             return turf.booleanIntersects(line, feature)
           } catch { return false }
         })
@@ -146,7 +152,6 @@ export default function MapPage() {
 
   const visitedTownIds = useMemo(() => new Set(townVisitData.keys()), [townVisitData])
 
-  // County visit detection — use line intersection too
   const visitedCountyIds = useMemo(() => {
     if (!activityLineGroups.length || !countyGeo) return new Set()
     const visited = new Set()
@@ -169,10 +174,9 @@ export default function MapPage() {
   const countyStyle = useMemo(() => (feature) => {
     const id = feature.properties.COUNTYSN || feature.properties.COUNTYNAME
     return {
-      fillColor:   'transparent',
-      fillOpacity: 0,
-      color:       visitedCountyIds.has(id) ? '#16a34a' : '#9ca3af',
-      weight:      visitedCountyIds.has(id) ? 2.5 : 1.5,
+      fillColor: 'transparent', fillOpacity: 0,
+      color:  visitedCountyIds.has(id) ? '#16a34a' : '#9ca3af',
+      weight: visitedCountyIds.has(id) ? 2.5 : 1.5,
     }
   }, [visitedCountyIds])
 
@@ -210,15 +214,34 @@ export default function MapPage() {
   const longestRideKm  = activities.length
     ? (Math.max(...activities.map((a) => a.distance)) / 1000).toFixed(0)
     : 0
+  const isEmpty = !loading && !error && activities.length === 0
 
+  const disconnect = () => {
+    sessionStorage.removeItem('strava_access_token')
+    sessionStorage.removeItem('strava_refresh_token')
+    sessionStorage.removeItem('strava_expires_at')
+    sessionStorage.removeItem('strava_athlete_name')
+    navigate('/')
+  }
+
+  // ── Loading screen ────────────────────────────────────────────────────────
   if (loading) return (
     <div className="map-loading">
-      <div className="spinner" />
-      <p>Loading your Strava rides…</p>
-      <p className="loading-sub">This may take a moment if you have many activities.</p>
+      <div className="load-card">
+        <div className="spinner" />
+        <div className="load-steps">
+          {LOAD_STEPS.map((label, i) => (
+            <div key={i} className={`load-step ${i < loadStep ? 'done' : i === loadStep ? 'active' : 'pending'}`}>
+              <span className="load-step-icon">{i < loadStep ? '✓' : i === loadStep ? '›' : '·'}</span>
+              {label}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 
+  // ── Error screen ──────────────────────────────────────────────────────────
   if (error) return (
     <div className="map-error">
       <div className="error-card">
@@ -230,79 +253,87 @@ export default function MapPage() {
     </div>
   )
 
+  // ── Sidebar content (shared between desktop + mobile) ─────────────────────
+  const sidebarContent = (
+    <>
+      <div className="panel-header">
+        <h1>Taiwan City, District and Township Challenge</h1>
+        <p className="panel-subtitle">台灣鄉鎮市區挑戰</p>
+        {storedName && <p className="panel-athlete">Showing data for {storedName}</p>}
+      </div>
+
+      <div className="stats-grid">
+        <div className="stat">
+          <div className="stat-val">{activities.length}</div>
+          <div className="stat-lbl">rides</div>
+        </div>
+        <div className="stat">
+          <div className="stat-val">{totalKm}</div>
+          <div className="stat-lbl">km total</div>
+        </div>
+        <div className="stat">
+          <div className="stat-val">{totalElevation}</div>
+          <div className="stat-lbl">elevation (m)</div>
+        </div>
+        <div className="stat stat-wide">
+          <div className="stat-val">{longestRideKm} km</div>
+          <div className="stat-lbl">longest ride in Taiwan</div>
+        </div>
+      </div>
+
+      <div className="counter-card">
+        <div className="counter-label-top">縣市 Counties &amp; Cities</div>
+        <div className="counter-row">
+          <span className="counter-num">{visitedCountyIds.size}</span>
+          <span className="counter-denom">/ {TOTAL_COUNTIES}</span>
+        </div>
+        <div className="counter-bar-wrap">
+          <div className="counter-bar county" style={{ width: `${(visitedCountyIds.size / TOTAL_COUNTIES) * 100}%` }} />
+        </div>
+      </div>
+
+      <div className="counter-card">
+        <div className="counter-label-top">鄉鎮市區 Townships</div>
+        <div className="counter-row">
+          <span className="counter-num">{visitedTownIds.size}</span>
+          <span className="counter-denom">/ {TOTAL_TOWNS}</span>
+        </div>
+        <div className="counter-bar-wrap">
+          <div className="counter-bar town" style={{ width: `${(visitedTownIds.size / TOTAL_TOWNS) * 100}%` }} />
+        </div>
+        <div className="counter-pct">{((visitedTownIds.size / TOTAL_TOWNS) * 100).toFixed(1)}% of Taiwan</div>
+      </div>
+
+      <label className="toggle">
+        <input type="checkbox" checked={showRides} onChange={() => setShowRides(!showRides)} />
+        Show ride routes
+      </label>
+
+      <div className="legend">
+        <div className="legend-row"><span className="swatch town-visited" /> Visited township</div>
+        <div className="legend-row"><span className="swatch town-unvisited" /> Unvisited township</div>
+        <div className="legend-row"><span className="swatch county-border" /> County border</div>
+        {showRides && <div className="legend-row"><span className="swatch route" /> Ride route</div>}
+      </div>
+
+      <button className="back-btn" onClick={disconnect}>← Disconnect</button>
+    </>
+  )
+
   return (
     <div className="map-layout">
-      <aside className="map-panel">
-        <div className="panel-header">
-          <h1>Taiwan City, District and Township Challenge</h1>
-          <p className="panel-subtitle">台灣鄉鎮市區挑戰</p>
-          {athleteName && <p className="panel-athlete">Showing data for {athleteName}</p>}
-        </div>
+      {/* Mobile hamburger */}
+      <button className="hamburger" onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
+        {sidebarOpen ? '✕' : '☰'}
+      </button>
 
-        {/* Strava stats */}
-        <div className="stats-grid">
-          <div className="stat">
-            <div className="stat-val">{activities.length}</div>
-            <div className="stat-lbl">rides</div>
-          </div>
-          <div className="stat">
-            <div className="stat-val">{totalKm}</div>
-            <div className="stat-lbl">km total</div>
-          </div>
-          <div className="stat">
-            <div className="stat-val">{totalElevation}</div>
-            <div className="stat-lbl">elevation (m)</div>
-          </div>
-          <div className="stat stat-wide">
-            <div className="stat-val">{longestRideKm} km</div>
-            <div className="stat-lbl">longest ride in Taiwan</div>
-          </div>
-        </div>
-
-        {/* Counties counter */}
-        <div className="counter-card">
-          <div className="counter-label-top">縣市 Counties &amp; Cities</div>
-          <div className="counter-row">
-            <span className="counter-num">{visitedCountyIds.size}</span>
-            <span className="counter-denom">/ {TOTAL_COUNTIES}</span>
-          </div>
-          <div className="counter-bar-wrap">
-            <div className="counter-bar county" style={{ width: `${(visitedCountyIds.size / TOTAL_COUNTIES) * 100}%` }} />
-          </div>
-        </div>
-
-        {/* Townships counter */}
-        <div className="counter-card">
-          <div className="counter-label-top">鄉鎮市區 Townships</div>
-          <div className="counter-row">
-            <span className="counter-num">{visitedTownIds.size}</span>
-            <span className="counter-denom">/ {TOTAL_TOWNS}</span>
-          </div>
-          <div className="counter-bar-wrap">
-            <div className="counter-bar town" style={{ width: `${(visitedTownIds.size / TOTAL_TOWNS) * 100}%` }} />
-          </div>
-          <div className="counter-pct">{((visitedTownIds.size / TOTAL_TOWNS) * 100).toFixed(1)}% of Taiwan</div>
-        </div>
-
-        <label className="toggle">
-          <input type="checkbox" checked={showRides} onChange={() => setShowRides(!showRides)} />
-          Show ride routes
-        </label>
-
-        <div className="legend">
-          <div className="legend-row"><span className="swatch town-visited" /> Visited township</div>
-          <div className="legend-row"><span className="swatch town-unvisited" /> Unvisited township</div>
-          <div className="legend-row"><span className="swatch county-border" /> County border</div>
-          {showRides && <div className="legend-row"><span className="swatch route" /> Ride route</div>}
-        </div>
-
-        <button className="back-btn" onClick={() => {
-          sessionStorage.removeItem('strava_access_token')
-          sessionStorage.removeItem('strava_refresh_token')
-          sessionStorage.removeItem('strava_expires_at')
-          navigate('/')
-        }}>← Disconnect</button>
+      {/* Sidebar — desktop always visible, mobile toggled */}
+      <aside className={`map-panel ${sidebarOpen ? 'open' : ''}`}>
+        {sidebarContent}
       </aside>
+
+      {/* Mobile overlay backdrop */}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
 
       <main className="map-main">
         <MapContainer center={[23.6, 121.0]} zoom={7} style={{ height: '100%', width: '100%' }}>
@@ -330,6 +361,17 @@ export default function MapPage() {
             <Polyline key={i} positions={pts} pathOptions={{ color: '#16a34a', weight: 2, opacity: 0.7 }} />
           ))}
         </MapContainer>
+
+        {/* Empty state overlay */}
+        {isEmpty && (
+          <div className="empty-overlay">
+            <div className="empty-card">
+              <div className="empty-icon">✈️</div>
+              <h2>No Taiwan rides found</h2>
+              <p>Time to book a flight to Taiwan and discover all those amazing mountain roads!</p>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   )

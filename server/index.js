@@ -107,11 +107,14 @@ app.get("/auth/callback", async (req, res) => {
     req.session.refresh_token    = data.refresh_token;
     req.session.token_expires_at  = data.expires_at;
 
-    // Only send safe, non-secret info to the client
+    // Explicitly save session before redirecting so cookie is set in time
     const athleteName = [data.athlete.firstname, data.athlete.lastname]
       .filter(Boolean).join(" ");
     const params = new URLSearchParams({ name: athleteName });
-    res.redirect(`${CLIENT_URL}/#/map?${params}`);
+    req.session.save((err) => {
+      if (err) console.error("Session save error:", err);
+      res.redirect(`${CLIENT_URL}/#/map?${params}`);
+    });
   } catch (err) {
     console.error("Token exchange failed:", err.response?.data || err.message);
     res.redirect(`${CLIENT_URL}/#/?error=token_exchange`);

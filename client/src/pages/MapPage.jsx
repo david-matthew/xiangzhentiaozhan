@@ -34,8 +34,39 @@ export default function MapPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const athleteName    = searchParams.get('name')
-  const exchangeToken  = searchParams.get('exchange')
+  const athleteName   = searchParams.get('name')
+  const accessToken   = searchParams.get('access_token')
+  const refreshToken  = searchParams.get('refresh_token')
+  const expiresAt     = searchParams.get('expires_at')
+
+  // Store tokens in sessionStorage so they survive a page refresh within the tab
+  useEffect(() => {
+    if (accessToken)  sessionStorage.setItem('strava_access_token',  accessToken)
+    if (refreshToken) sessionStorage.setItem('strava_refresh_token', refreshToken)
+    if (expiresAt)    sessionStorage.setItem('strava_expires_at',    expiresAt)
+  }, [accessToken, refreshToken, expiresAt])
+
+  const getToken = async () => {
+    let token   = sessionStorage.getItem('strava_access_token')
+    const exp   = Number(sessionStorage.getItem('strava_expires_at') || 0)
+    const rTok  = sessionStorage.getItem('strava_refresh_token')
+    if (!token) throw new Error('Not authenticated. Please reconnect with Strava.')
+    // Refresh if within 5 minutes of expiry
+    if (rTok && Date.now() / 1000 > exp - 300) {
+      const r = await fetch(`${SERVER}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: rTok }),
+      })
+      if (!r.ok) throw new Error('Session expired. Please reconnect with Strava.')
+      const data = await r.json()
+      sessionStorage.setItem('strava_access_token',  data.access_token)
+      sessionStorage.setItem('strava_refresh_token', data.refresh_token)
+      sessionStorage.setItem('strava_expires_at',    data.expires_at)
+      token = data.access_token
+    }
+    return token
+  }
 
   const [activities,   setActivities]   = useState([])
   const [countyGeo,    setCountyGeo]    = useState(null)
@@ -47,25 +78,16 @@ export default function MapPage() {
   useEffect(() => {
     setLoading(true)
     const base = import.meta.env.BASE_URL
-
-    // If we have an exchange token, redeem it for a session first
-    const sessionPromise = exchangeToken
-      ? fetch(`${SERVER}/auth/exchange`, {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: exchangeToken }),
-        }).then((r) => { if (!r.ok) throw new Error('Auth exchange failed') })
-      : Promise.resolve()
-
     const townFetches = TOWN_FILES.map((slug) =>
       fetch(`${base}towns-${slug}.json`).then((r) => r.json())
     )
 
-    sessionPromise
-      .then(() => Promise.all([
+    getToken()
+      .then((token) => Promise.all([
         fetch(`${base}twCounty2010.geojson`).then((r) => r.json()),
-        fetch(`${SERVER}/activities`, { credentials: 'include' }).then((r) => {
+        fetch(`${SERVER}/activities`, {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((r) => {
           if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
           return r.json()
         }),
@@ -275,8 +297,10 @@ export default function MapPage() {
         </div>
 
         <button className="back-btn" onClick={() => {
-          fetch(`${SERVER}/auth/logout`, { method: 'POST', credentials: 'include' })
-            .finally(() => navigate('/'))
+          sessionStorage.removeItem('strava_access_token')
+          sessionStorage.removeItem('strava_refresh_token')
+          sessionStorage.removeItem('strava_expires_at')
+          navigate('/')
         }}>← Disconnect</button>
       </aside>
 

@@ -1,41 +1,15 @@
 require("dotenv").config();
-const express  = require("express");
-const cors     = require("cors");
-const axios    = require("axios");
-const session  = require("express-session");
-const { v4: uuidv4 } = require("uuid");
+const express = require("express");
+const cors    = require("cors");
+const axios   = require("axios");
 
-const app         = express();
-const PORT        = process.env.PORT || 3001;
-const CLIENT_URL  = process.env.CLIENT_URL  || "http://localhost:5173";
+const app           = express();
+const PORT          = process.env.PORT || 3001;
+const CLIENT_URL    = process.env.CLIENT_URL    || "http://localhost:5173";
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || CLIENT_URL;
-const IS_PROD     = process.env.NODE_ENV === "production";
 
-// ── CORS ─────────────────────────────────────────────────────────────────────
-app.use(cors({ origin: CLIENT_ORIGIN, credentials: true }));
+app.use(cors({ origin: CLIENT_ORIGIN }));
 app.use(express.json());
-
-// ── Session ───────────────────────────────────────────────────────────────────
-app.use(session({
-  secret: process.env.SESSION_SECRET || "dev-secret-change-in-prod",
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure:   IS_PROD,
-    sameSite: IS_PROD ? "none" : "lax",
-    maxAge:   7 * 24 * 60 * 60 * 1000,
-  },
-}));
-
-// ── Short-lived exchange token store (in-memory, expires in 2 minutes) ───────
-const pendingExchanges = new Map();
-function createExchangeToken(payload) {
-  const token = uuidv4();
-  pendingExchanges.set(token, { ...payload, createdAt: Date.now() });
-  setTimeout(() => pendingExchanges.delete(token), 2 * 60 * 1000);
-  return token;
-}
 
 // ── Taiwan bounding box ───────────────────────────────────────────────────────
 const TW = { latMin: 21.5, latMax: 25.6, lonMin: 119.0, lonMax: 122.5 };
@@ -59,25 +33,6 @@ function decodePolyline(encoded) {
   return points;
 }
 
-// ── Refresh Strava token if expired ──────────────────────────────────────────
-async function getValidToken(req) {
-  const { access_token, refresh_token, token_expires_at } = req.session;
-  if (!access_token) throw new Error("Not authenticated");
-  if (Date.now() / 1000 > token_expires_at - 300) {
-    console.log("Token expired — refreshing…");
-    const { data } = await axios.post("https://www.strava.com/oauth/token", {
-      client_id:     process.env.STRAVA_CLIENT_ID,
-      client_secret: process.env.STRAVA_CLIENT_SECRET,
-      grant_type:    "refresh_token",
-      refresh_token,
-    });
-    req.session.access_token     = data.access_token;
-    req.session.refresh_token    = data.refresh_token;
-    req.session.token_expires_at = data.expires_at;
-  }
-  return req.session.access_token;
-}
-
 // ── Routes ────────────────────────────────────────────────────────────────────
 
 // Step 1: redirect to Strava
@@ -92,8 +47,8 @@ app.get("/auth/strava", (req, res) => {
   res.redirect(`https://www.strava.com/oauth/authorize?${params}`);
 });
 
-// Step 2: Strava callback — exchange code for tokens, create exchange token,
-//         redirect to client with a short-lived one-time code (not the real token)
+// Step 2: Strava callback — redirect to client with tokens in hash fragment
+// Hash fragments (#) are never sent to servers, so the token is safe
 app.get("/auth/callback", async (req, res) => {
   const { code, error } = req.query;
   if (error || !code) return res.redirect(`${CLIENT_URL}/#/?error=access_denied`);
@@ -106,43 +61,49 @@ app.get("/auth/callback", async (req, res) => {
     });
     const athleteName = [data.athlete.firstname, data.athlete.lastname]
       .filter(Boolean).join(" ");
-    const exchangeToken = createExchangeToken({
-      access_token:     data.access_token,
-      refresh_token:    data.refresh_token,
-      token_expires_at: data.expires_at,
+    // Pass tokens via hash fragment — never sent to any server
+    const fragment = new URLSearchParams({
+      name:          athleteName,
+      access_token:  data.access_token,
+      refresh_token: data.refresh_token,
+      expires_at:    data.expires_at,
     });
-    const params = new URLSearchParams({ name: athleteName, exchange: exchangeToken });
-    res.redirect(`${CLIENT_URL}/#/map?${params}`);
+    res.redirect(`${CLIENT_URL}/#/map?${fragment}`);
   } catch (err) {
     console.error("Token exchange failed:", err.response?.data || err.message);
     res.redirect(`${CLIENT_URL}/#/?error=token_exchange`);
   }
 });
 
-// Step 3: client calls this with the one-time exchange token to get a session cookie
-app.post("/auth/exchange", (req, res) => {
-  const { token } = req.body;
-  const payload = pendingExchanges.get(token);
-  if (!payload) return res.status(400).json({ error: "Invalid or expired exchange token" });
-  pendingExchanges.delete(token);
-  req.session.access_token     = payload.access_token;
-  req.session.refresh_token    = payload.refresh_token;
-  req.session.token_expires_at = payload.token_expires_at;
-  req.session.save((err) => {
-    if (err) return res.status(500).json({ error: "Session save failed" });
-    res.json({ ok: true });
-  });
-});
-
-// Step 4: logout
-app.post("/auth/logout", (req, res) => {
-  req.session.destroy(() => res.json({ ok: true }));
-});
-
-// Step 5: fetch Taiwan cycling activities
-app.get("/activities", async (req, res) => {
+// Step 3: refresh an expired token
+app.post("/auth/refresh", async (req, res) => {
+  const { refresh_token } = req.body;
+  if (!refresh_token) return res.status(400).json({ error: "Missing refresh_token" });
   try {
-    const access_token = await getValidToken(req);
+    const { data } = await axios.post("https://www.strava.com/oauth/token", {
+      client_id:     process.env.STRAVA_CLIENT_ID,
+      client_secret: process.env.STRAVA_CLIENT_SECRET,
+      grant_type:    "refresh_token",
+      refresh_token,
+    });
+    res.json({
+      access_token:  data.access_token,
+      refresh_token: data.refresh_token,
+      expires_at:    data.expires_at,
+    });
+  } catch (err) {
+    console.error("Token refresh failed:", err.response?.data || err.message);
+    res.status(401).json({ error: "Token refresh failed" });
+  }
+});
+
+// Step 4: fetch Taiwan cycling activities — token passed as Bearer header
+app.get("/activities", async (req, res) => {
+  const auth = req.headers.authorization;
+  if (!auth?.startsWith("Bearer ")) return res.status(401).json({ error: "Missing token" });
+  const access_token = auth.slice(7);
+
+  try {
     const activities = [];
     let page = 1;
     while (true) {
@@ -170,9 +131,9 @@ app.get("/activities", async (req, res) => {
       }));
     res.json({ count: taiwanRides.length, activities: taiwanRides });
   } catch (err) {
-    const status = err.message === "Not authenticated" ? 401 : 500;
+    const status = err.response?.status === 401 ? 401 : 500;
     console.error("Activities fetch failed:", err.response?.data || err.message);
-    res.status(status).json({ error: err.message || "Failed to fetch activities" });
+    res.status(status).json({ error: "Failed to fetch activities" });
   }
 });
 

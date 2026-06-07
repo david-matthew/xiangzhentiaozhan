@@ -63,7 +63,7 @@ app.get("/auth/callback", async (req, res) => {
     // Pass tokens to client via query params (fine for local use)
     const params = new URLSearchParams({
       access_token: data.access_token,
-      athlete_name: data.athlete.firstname,
+      athlete_name: `${data.athlete.firstname} ${data.athlete.lastname}`.trim(),
       athlete_id: data.athlete.id,
     });
     res.redirect(`${CLIENT_URL}/map?${params}`);

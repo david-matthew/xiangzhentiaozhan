@@ -14,8 +14,21 @@ const TOWN_FILES = [
   '63000','64000','65000','66000','67000','68000',
 ]
 
-const TOTAL_TOWNS   = 368
+const TOTAL_TOWNS    = 368
 const TOTAL_COUNTIES = 22
+
+// Build a turf LineString from activity points [[lat,lon],...]
+// Splits into chunks of 500 to avoid turf coordinate limits
+function activityLines(points) {
+  const coords = points.map(([lat, lon]) => [lon, lat])
+  if (coords.length < 2) return []
+  const lines = []
+  for (let i = 0; i < coords.length - 1; i += 499) {
+    const chunk = coords.slice(i, i + 500)
+    if (chunk.length >= 2) lines.push(turf.lineString(chunk))
+  }
+  return lines
+}
 
 export default function MapPage() {
   const [searchParams] = useSearchParams()
@@ -50,71 +63,82 @@ export default function MapPage() {
         if (actData.error) throw new Error(actData.error)
         setCountyGeo(counties)
         setActivities(actData.activities)
-        const features = topoFiles.flatMap((topo) =>
-          topojson.feature(topo, topo.objects.map).features
+        setTownFeatures(
+          topoFiles.flatMap((topo) => topojson.feature(topo, topo.objects.map).features)
         )
-        setTownFeatures(features)
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false))
   }, [accessToken])
 
-  const allPoints = useMemo(
-    () => activities.flatMap((a) => a.points),
+  // Pre-build turf lines per activity (used for intersection checks)
+  const activityLineGroups = useMemo(
+    () => activities.map((a) => ({ ...a, lines: activityLines(a.points) })),
     [activities]
   )
 
-  // Map of townId → { count, lastDate } for visited towns
+  // For each town, find which activities intersected it
   const townVisitData = useMemo(() => {
-    if (!activities.length || !townFeatures.length) return new Map()
+    if (!activityLineGroups.length || !townFeatures.length) return new Map()
     const data = new Map()
     townFeatures.forEach((feature) => {
       const id = feature.properties.id
-      activities.forEach((activity) => {
-        const pts = activity.points
-        const hit = pts.some((pt, i) => {
-          if (i % 5 !== 0) return false
-          try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
-          catch { return false }
+      activityLineGroups.forEach((activity) => {
+        if (!activity.lines.length) return
+        const hit = activity.lines.some((line) => {
+          try {
+            // First cheap check: bounding box overlap
+            const lineBbox   = turf.bbox(line)
+            const featureBbox = turf.bbox(feature)
+            if (
+              lineBbox[2] < featureBbox[0] || lineBbox[0] > featureBbox[2] ||
+              lineBbox[3] < featureBbox[1] || lineBbox[1] > featureBbox[3]
+            ) return false
+            return turf.booleanIntersects(line, feature)
+          } catch { return false }
         })
         if (hit) {
           const prev = data.get(id)
           const date = new Date(activity.date)
           data.set(id, {
-            count: (prev?.count ?? 0) + 1,
+            count:    (prev?.count ?? 0) + 1,
             lastDate: !prev || date > prev.lastDate ? date : prev.lastDate,
           })
         }
       })
     })
     return data
-  }, [activities, townFeatures])
+  }, [activityLineGroups, townFeatures])
 
   const visitedTownIds = useMemo(() => new Set(townVisitData.keys()), [townVisitData])
 
+  // County visit detection — use line intersection too
   const visitedCountyIds = useMemo(() => {
-    if (!allPoints.length || !countyGeo) return new Set()
+    if (!activityLineGroups.length || !countyGeo) return new Set()
     const visited = new Set()
     countyGeo.features.forEach((feature) => {
       const id = feature.properties.COUNTYSN || feature.properties.COUNTYNAME
-      const hit = allPoints.some((pt, i) => {
-        if (i % 5 !== 0) return false
-        try { return turf.booleanPointInPolygon(turf.point([pt[1], pt[0]]), feature) }
-        catch { return false }
-      })
+      const hit = activityLineGroups.some((activity) =>
+        activity.lines.some((line) => {
+          try {
+            const lb = turf.bbox(line), fb = turf.bbox(feature)
+            if (lb[2] < fb[0] || lb[0] > fb[2] || lb[3] < fb[1] || lb[1] > fb[3]) return false
+            return turf.booleanIntersects(line, feature)
+          } catch { return false }
+        })
+      )
       if (hit) visited.add(id)
     })
     return visited
-  }, [allPoints, countyGeo])
+  }, [activityLineGroups, countyGeo])
 
   const countyStyle = useMemo(() => (feature) => {
     const id = feature.properties.COUNTYSN || feature.properties.COUNTYNAME
-    const visited = visitedCountyIds.has(id)
     return {
       fillColor:   'transparent',
       fillOpacity: 0,
-      color:       visited ? '#16a34a' : '#9ca3af',
-      weight:      visited ? 2.5 : 1.5,
+      color:       visitedCountyIds.has(id) ? '#16a34a' : '#9ca3af',
+      weight:      visitedCountyIds.has(id) ? 2.5 : 1.5,
     }
   }, [visitedCountyIds])
 
@@ -129,16 +153,15 @@ export default function MapPage() {
   }, [visitedTownIds])
 
   const onEachTown = useMemo(() => (feature, layer) => {
-    const name = feature.properties.name || ''
+    const name  = feature.properties.name || ''
     const visit = townVisitData.get(feature.properties.id)
     const lastVisited = visit
       ? visit.lastDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
       : '—'
-    const totalVisits = visit ? visit.count : 0
     const html = `
       <div class="tt-name">${name}</div>
       <div class="tt-row"><span class="tt-lbl">Last visited</span><span class="tt-val">${lastVisited}</span></div>
-      <div class="tt-row"><span class="tt-lbl">Total visits</span><span class="tt-val">${totalVisits}</span></div>
+      <div class="tt-row"><span class="tt-lbl">Total visits</span><span class="tt-val">${visit?.count ?? 0}</span></div>
     `
     layer.bindTooltip(html, { sticky: true, className: 'town-tooltip' })
   }, [townVisitData])
@@ -148,8 +171,11 @@ export default function MapPage() {
     [activities]
   )
 
-  const totalKm       = (activities.reduce((s, a) => s + a.distance,  0) / 1000).toFixed(0)
-  const totalElevation = activities.reduce((s, a) => s + a.elevation, 0).toFixed(0)
+  const totalKm        = (activities.reduce((s, a) => s + a.distance,  0) / 1000).toFixed(0)
+  const totalElevation =  activities.reduce((s, a) => s + a.elevation, 0).toFixed(0)
+  const longestRideKm  = activities.length
+    ? (Math.max(...activities.map((a) => a.distance)) / 1000).toFixed(0)
+    : 0
 
   if (loading) return (
     <div className="map-loading">
@@ -160,16 +186,19 @@ export default function MapPage() {
   )
 
   if (error) return (
-    <div className="map-loading">
-      <p style={{ color: '#ef4444' }}>❌ {error}</p>
-      <button onClick={() => navigate('/')}>← Back</button>
+    <div className="map-error">
+      <div className="error-card">
+        <div className="error-icon">⚠️</div>
+        <h2>Something went wrong</h2>
+        <p className="error-msg">{error}</p>
+        <button className="error-btn" onClick={() => navigate('/')}>← Back to home</button>
+      </div>
     </div>
   )
 
   return (
     <div className="map-layout">
       <aside className="map-panel">
-        {/* Title */}
         <div className="panel-header">
           <h1>Taiwan City, District and Township Challenge</h1>
           <p className="panel-subtitle">台灣鄉鎮市區挑戰</p>
@@ -189,6 +218,10 @@ export default function MapPage() {
           <div className="stat">
             <div className="stat-val">{totalElevation}</div>
             <div className="stat-lbl">elevation (m)</div>
+          </div>
+          <div className="stat stat-wide">
+            <div className="stat-val">{longestRideKm} km</div>
+            <div className="stat-lbl">longest ride in Taiwan</div>
           </div>
         </div>
 
@@ -217,13 +250,11 @@ export default function MapPage() {
           <div className="counter-pct">{((visitedTownIds.size / TOTAL_TOWNS) * 100).toFixed(1)}% of Taiwan</div>
         </div>
 
-        {/* Controls */}
         <label className="toggle">
           <input type="checkbox" checked={showRides} onChange={() => setShowRides(!showRides)} />
           Show ride routes
         </label>
 
-        {/* Legend */}
         <div className="legend">
           <div className="legend-row"><span className="swatch town-visited" /> Visited township</div>
           <div className="legend-row"><span className="swatch town-unvisited" /> Unvisited township</div>
@@ -240,8 +271,6 @@ export default function MapPage() {
             attribution='&copy; <a href="https://carto.com/">Carto</a>'
             url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
           />
-
-          {/* Towns — interactive for tooltips */}
           {townFeatures.length > 0 && (
             <GeoJSON
               key={`towns-${visitedTownIds.size}`}
@@ -250,8 +279,6 @@ export default function MapPage() {
               onEachFeature={onEachTown}
             />
           )}
-
-          {/* Counties — non-interactive so town tooltips work */}
           {countyGeo && (
             <GeoJSON
               key={`counties-${visitedCountyIds.size}`}
@@ -260,13 +287,8 @@ export default function MapPage() {
               interactive={false}
             />
           )}
-
           {showRides && rideLines.map((pts, i) => (
-            <Polyline
-              key={i}
-              positions={pts}
-              pathOptions={{ color: '#16a34a', weight: 2, opacity: 0.7 }}
-            />
+            <Polyline key={i} positions={pts} pathOptions={{ color: '#16a34a', weight: 2, opacity: 0.7 }} />
           ))}
         </MapContainer>
       </main>

@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import './Landing.css'
 
 const SERVER = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001'
 
 export default function Landing() {
+  const [searchParams] = useSearchParams()
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const error = params.get('error')
+    const error = searchParams.get('error')
     if (error) console.warn('Auth error:', error)
-  }, [])
+  }, [searchParams])
 
   function handleConnect() {
     window.location.href = `${SERVER}/auth/strava`

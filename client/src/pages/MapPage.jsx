@@ -34,8 +34,7 @@ export default function MapPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const accessToken = searchParams.get('access_token')
-  const athleteName = searchParams.get('athlete_name')
+  const athleteName = searchParams.get('name')
 
   const [activities,   setActivities]   = useState([])
   const [countyGeo,    setCountyGeo]    = useState(null)
@@ -45,18 +44,16 @@ export default function MapPage() {
   const [showRides,    setShowRides]    = useState(true)
 
   useEffect(() => {
-    if (!accessToken) navigate('/')
-  }, [accessToken, navigate])
-
-  useEffect(() => {
-    if (!accessToken) return
     setLoading(true)
     const townFetches = TOWN_FILES.map((slug) =>
       fetch(`/towns-${slug}.json`).then((r) => r.json())
     )
     Promise.all([
       fetch('/twCounty2010.geojson').then((r) => r.json()),
-      fetch(`${SERVER}/activities?access_token=${accessToken}`).then((r) => r.json()),
+      fetch(`${SERVER}/activities`, { credentials: 'include' }).then((r) => {
+        if (r.status === 401) throw new Error('Session expired. Please reconnect with Strava.')
+        return r.json()
+      }),
       ...townFetches,
     ])
       .then(([counties, actData, ...topoFiles]) => {
@@ -262,7 +259,10 @@ export default function MapPage() {
           {showRides && <div className="legend-row"><span className="swatch route" /> Ride route</div>}
         </div>
 
-        <button className="back-btn" onClick={() => navigate('/')}>← Disconnect</button>
+        <button className="back-btn" onClick={() => {
+          fetch(`${SERVER}/auth/logout`, { method: 'POST', credentials: 'include' })
+            .finally(() => navigate('/'))
+        }}>← Disconnect</button>
       </aside>
 
       <main className="map-main">

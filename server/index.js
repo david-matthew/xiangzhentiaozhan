@@ -51,7 +51,7 @@ app.get("/auth/strava", (req, res) => {
 // Hash fragments (#) are never sent to servers, so the token is safe
 app.get("/auth/callback", async (req, res) => {
   const { code, error } = req.query;
-  if (error || !code) return res.redirect(`${CLIENT_URL}/#/?error=access_denied`);
+  if (error || !code) return res.redirect(`${CLIENT_URL}/#/challenge?error=access_denied`);
   try {
     const { data } = await axios.post("https://www.strava.com/oauth/token", {
       client_id:     process.env.STRAVA_CLIENT_ID,
@@ -71,7 +71,7 @@ app.get("/auth/callback", async (req, res) => {
     res.redirect(`${CLIENT_URL}/#/map?${fragment}`);
   } catch (err) {
     console.error("Token exchange failed:", err.response?.data || err.message);
-    res.redirect(`${CLIENT_URL}/#/?error=token_exchange`);
+    res.redirect(`${CLIENT_URL}/#/challenge?error=token_exchange`);
   }
 });
 

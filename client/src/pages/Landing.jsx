@@ -7,6 +7,7 @@ const SERVER = import.meta.env.VITE_SERVER_URL || 'http://localhost:3001'
 export default function Landing() {
   const [searchParams] = useSearchParams()
   useEffect(() => {
+    document.title = 'Taiwan City, District and Township Challenge'
     const error = searchParams.get('error')
     if (error) console.warn('Auth error:', error)
   }, [searchParams])

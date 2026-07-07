@@ -45,6 +45,7 @@ export default function MapPage() {
   const expiresAt    = searchParams.get('expires_at')
 
   useEffect(() => {
+    document.title = 'Taiwan City, District and Township Challenge'
     if (accessToken)  sessionStorage.setItem('strava_access_token',  accessToken)
     if (refreshToken) sessionStorage.setItem('strava_refresh_token', refreshToken)
     if (expiresAt)    sessionStorage.setItem('strava_expires_at',    expiresAt)
@@ -81,6 +82,7 @@ export default function MapPage() {
   const [loadStep,      setLoadStep]      = useState(0)
   const [error,         setError]         = useState(null)
   const [showRides,     setShowRides]     = useState(true)
+  const [showTerrain,   setShowTerrain]   = useState(false)
   const [sidebarOpen,   setSidebarOpen]   = useState(false)
 
   useEffect(() => {
@@ -308,6 +310,10 @@ export default function MapPage() {
         <input type="checkbox" checked={showRides} onChange={() => setShowRides(!showRides)} />
         Show ride routes
       </label>
+      <label className="toggle">
+        <input type="checkbox" checked={showTerrain} onChange={() => setShowTerrain(!showTerrain)} />
+        Show elevation shading
+      </label>
 
       <div className="legend">
         <div className="legend-row"><span className="swatch town-visited" /> Visited township</div>
@@ -337,10 +343,18 @@ export default function MapPage() {
 
       <main className="map-main">
         <MapContainer center={[23.6, 121.0]} zoom={7} style={{ height: '100%', width: '100%' }}>
-          <TileLayer
-            attribution='&copy; <a href="https://carto.com/">Carto</a>'
-            url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
-          />
+          {showTerrain ? (
+            <TileLayer
+              attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"
+              maxZoom={13}
+            />
+          ) : (
+            <TileLayer
+              attribution='&copy; <a href="https://carto.com/">Carto</a>'
+              url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+            />
+          )}
           {townFeatures.length > 0 && (
             <GeoJSON
               key={`towns-${visitedTownIds.size}`}

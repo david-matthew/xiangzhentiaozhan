@@ -1,0 +1,5 @@
+STRAVA_CLIENT_SECRET=your_secret_here
+CLIENT_URL=http://localhost:5173
+CLIENT_ORIGIN=http://localhost:5173
+REDIRECT_URI=http://localhost:8787/auth/callback
+STRAVA_CLIENT_ID=36133

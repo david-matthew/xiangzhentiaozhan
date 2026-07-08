@@ -4,8 +4,8 @@ import './Splash.css'
 const CHARS = [
   { char: '哩', zhuyin: 'ㄌㄧ' },
   { char: '哩', zhuyin: 'ㄌㄧ' },
-  { char: '摳', zhuyin: 'ㄎㄡ' },
-  { char: '摳', zhuyin: 'ㄎㄡ' },
+  { char: '叩', zhuyin: 'ㄎㄡ' },
+  { char: '叩', zhuyin: 'ㄎㄡ' },
 ]
 
 export default function Splash() {

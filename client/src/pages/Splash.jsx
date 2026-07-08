@@ -1,14 +1,27 @@
 import { useNavigate } from 'react-router-dom'
 import './Splash.css'
 
+const CHARS = [
+  { char: '哩', zhuyin: 'ㄌㄧ' },
+  { char: '哩', zhuyin: 'ㄌㄧ' },
+  { char: '摳', zhuyin: 'ㄎㄡ' },
+  { char: '摳', zhuyin: 'ㄎㄡ' },
+]
+
 export default function Splash() {
   const navigate = useNavigate()
 
   return (
     <div className="splash">
       <div className="splash-content">
-        <h1 className="splash-title">哩哩摳摳</h1>
-        <p className="splash-zhuyin">ㄌㄧ ㄌㄧ ㄎㄡ ㄎㄡ</p>
+        <h1 className="splash-title">
+          {CHARS.map(({ char, zhuyin }, i) => (
+            <span key={i} className="splash-char-col">
+              <span className="splash-char">{char}</span>
+              <span className="splash-zhuyin">{zhuyin}</span>
+            </span>
+          ))}
+        </h1>
         <p className="splash-tagline">odds &amp; ends</p>
 
         <div className="splash-apps">

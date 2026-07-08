@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Chocolate+Classical+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&display=swap');
 
 .splash {
   min-height: 100vh;
@@ -15,20 +15,35 @@
   width: 100%;
 }
 
+/* ── Title block ── */
 .splash-title {
-  font-family: 'Chocolate Classical Sans', serif;
-  font-size: 64px;
-  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 6px;
+}
+
+.splash-char-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.splash-char {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 900;
+  font-size: 82px;
   color: #111827;
-  line-height: 1.1;
-  margin-bottom: 10px;
+  line-height: 1;
 }
 
 .splash-zhuyin {
-  font-size: 18px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
   color: #6b7280;
-  letter-spacing: 0.15em;
-  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+  line-height: 1;
 }
 
 .splash-tagline {
@@ -36,6 +51,7 @@
   color: #9ca3af;
   letter-spacing: 0.12em;
   text-transform: lowercase;
+  margin-top: 10px;
   margin-bottom: 56px;
 }
 

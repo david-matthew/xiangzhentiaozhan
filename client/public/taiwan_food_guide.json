@@ -1,5 +1,16 @@
 [
   {
+    "name": "Fuhang Soy Milk",
+    "city": "台北 Taipei",
+    "category": "Breakfast",
+    "url": "https://maps.app.goo.gl/fhEsuXqnZqFtAaJp6",
+    "description": "Not exactly breaking news, but this is one of the best breakfast joints in Taipei. Get there early (and I mean early), because the queue will go around the block and then some. Get the 厚燒餅 houshaobing thick baked bing with egg. The salty soy milk with 油條 youtiao dough sticks for that dipping action.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
     "name": "旭達豆漿店 Xu Da Soy Milk Shop",
     "city": "台北 Taipei",
     "category": "Breakfast",
@@ -66,6 +77,39 @@
     "coords_fallback": true
   },
   {
+    "name": "Wenzhou Street Radish Pancake",
+    "city": "台北 Taipei",
+    "category": "Breakfast",
+    "url": "https://maps.app.goo.gl/WkaJ4utUsgRkg8xA7",
+    "description": "Radish pancakes are a Taiwanese staple.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Lao Shandong Homemade Noodles",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/iHCi2mVcGdMCk38x5",
+    "description": "Great beef noodle soup down in the basement in Ximending.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Fuhong Beef Noodles",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/Ezn11FLBeLVvjrCg9",
+    "description": "A few blocks north is Fuhong. A+ beef noodles. Jianhong next door is also legit.",
+    "recommended": false,
+    "lat": 25.0476245,
+    "lng": 121.5051609,
+    "coords_fallback": false
+  },
+  {
     "name": "田舍手打麵 西寧店",
     "city": "台北 Taipei",
     "category": "Dinner",
@@ -110,22 +154,396 @@
     "coords_fallback": false
   },
   {
+    "name": "A Cheng Goose",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/CkD5kNYDhbKkzHUu9",
+    "description": "Smoked goose.",
+    "recommended": true,
+    "lat": 25.0566265,
+    "lng": 121.5274918,
+    "coords_fallback": false
+  },
+  {
+    "name": "Chan Shifan",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/YUwVK4RuSCHm2wcn6",
+    "description": "Top notch Taiwanese izakaya.",
+    "recommended": true,
+    "lat": 25.0315658,
+    "lng": 121.541965,
+    "coords_fallback": false
+  },
+  {
+    "name": "Fireweeds",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/oewpsfsw8enmWwde8",
+    "description": "Excellent izakaya.",
+    "recommended": false,
+    "lat": 25.0248333,
+    "lng": 121.5191405,
+    "coords_fallback": false
+  },
+  {
     "name": "有有1969",
     "city": "台北 Taipei",
     "category": "Dinner",
     "url": "https://maps.app.goo.gl/A2nBefTqFyDJFuzp6",
-    "description": "玄德素食（大慈素食）",
+    "description": "",
     "recommended": false,
     "lat": 25.049034,
     "lng": 121.539497,
     "coords_fallback": false
   },
   {
-    "name": "剉冰 Shaved ice (pronounced tshuah-bing in Taiwanese) or 豆花 douhua (tofa) places can be found all over Taipei (and Taiwan, for that matter). Douhua is served hot or cold, depending on the season, and is so, so good. Get a bowl of tofa and pick your toppings: 花生 peanuts, 紅豆 adzuki or 綠豆 mung beans, 芋圓 taro balls, 湯圓 small glutinous rice balls, 地瓜圓 sweet potato balls, 珍珠 boba, 仙草 herbal jelly, 愛玉 jelly. Yum. 剉冰 Shaved ice also comes with a whole host of toppings, often including in-season fruit.",
+    "name": "玄德素食（大慈素食）",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/jPmFTZTV3AWctCAx7",
+    "description": "Buddhist vegetarian canteen in the heart of Ximending. You pay by weight.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "刈包吉-萬華",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/HTq57KVM45wFbYubA",
+    "description": "Gua bao a.k.a. braised pork buns.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Chan Chi Hotpot Dunnan Branch",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/N77vhh1N4WsSe4Pn6?g_st=ic",
+    "description": "Great hotpot. Pre-book.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "enishi",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/88kM4qghqdziuuYm7?g_st=ic",
+    "description": "There’s so much good ramen in town. Enishi is up there.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "辣·得記麻辣火鍋-安居總店",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/ZW1phoVcHezvLfsbA?g_st=ic",
+    "description": "Great hotpot.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Takumi Dumplings",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/WWRRe12Fv9PSkKqJA",
+    "description": "Fabulous dumplings. Busy but moves fast.",
+    "recommended": false,
+    "lat": 25.0412962,
+    "lng": 121.5242147,
+    "coords_fallback": false
+  },
+  {
+    "name": "Wangji Fucheng Zongzi",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/W6SboQkU6CbEeLVz6",
+    "description": "Delicious steamed 粽子. Pair with daikon soup.",
+    "recommended": true,
+    "lat": 25.0479804,
+    "lng": 121.5434928,
+    "coords_fallback": false
+  },
+  {
+    "name": "彰化肉圓",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/wt5JyhUHJUimmWX4A",
+    "description": "Small stand selling Changhua meat balls with glutinous rice.",
+    "recommended": false,
+    "lat": 25.043908,
+    "lng": 121.5403903,
+    "coords_fallback": false
+  },
+  {
+    "name": "Pang too food / wonton shop",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/bsh7prGJYrQn2t3y7?g_st=ic",
+    "description": "Fantastic wonton soup joint.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Pizza Has a Face",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/tnwEmiexkRWM31JQ8",
+    "description": "There’s not a lot of great pizza in Taiwan, but this place is the exception.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "涮辛酸麻辣火鍋吃到飽",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/iq5W6ZQ5seP96nnE9?g_st=ic",
+    "description": "Another great hotpot joint.",
+    "recommended": false,
+    "lat": 25.04405,
+    "lng": 121.5486,
+    "coords_fallback": false
+  },
+  {
+    "name": "Daqiaotou rice cakes 大橋頭老牌筒仔米糕",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/PYpsVk4qJAxN7WAV9?g_st=ic",
+    "description": "Not the Korean kind of rice cake, but rather glutinous rice in the shape of a cupcake with pork, egg and a brown sauce.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Jin Da Braised Pork Rice 今大滷肉飯",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/otf1YFpJ5au7R8n17?g_st=ic",
+    "description": "Braised pork rice out in Sanchong.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "巧房餡餅",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/iKwxZKVc6nCKmZTB7?g_st=ic",
+    "description": "Savoury and sweet pies.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "南川麵館 Nanchuan Noodle Restaurant",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/L7sBDAUBMGKK9kfZ6",
+    "description": "One of my favourite noodle places. Don’t forget the side dishes!",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "糊塗麵",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/qksPbJboQYqvvYn8A?g_st=ic",
+    "description": "Signature dish is “messy” noodles.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "韓記老虎麵食館",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/T8FAoWVGk9YXcG4i9?g_st=ic",
+    "description": "Great beef noodle restaurant. Add some pig blood or dough sticks to the broth.",
+    "recommended": false,
+    "lat": 25.0287847,
+    "lng": 121.5413152,
+    "coords_fallback": false
+  },
+  {
+    "name": "小慧涼麵店",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/RWD7PpZ3z9cRTLD9A?g_st=ic",
+    "description": "Cold noodles.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "春蒜咖喱",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/FupWViRZ4781zPew6?g_st=ic",
+    "description": "Cool little curry joint out in Nangang.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "種福園",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/NFHqQ3cgfjx8gGC5A?g_st=ic",
+    "description": "Northeast China-style restaurant. Their little wraps 斤餅 with shredded meat 京醬肉絲 are great。",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "The Six Omurice 陸角蛋包飯",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/b8hbXVRsTv5JNsnu8?g_st=ic",
+    "description": "Great omelette rice place.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Yansan Night Market",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/Ge4FJsMtJHww27PE6",
+    "description": "Probably the best night market in Taipei. Get in the queue somewhere and order something delicious.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Wu Wang Tsai Chi",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/wj8NfRf7xFGp9Dzf7",
+    "description": "Taiwanese-style spring rolls (i.e. with fresh/soft wrap, not fried.) They’re huge and delicious.",
+    "recommended": true,
+    "lat": 25.0287627,
+    "lng": 121.5041487,
+    "coords_fallback": false
+  },
+  {
+    "name": "Nanjichang Night Market",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/w2V8cHPGnV1xGaVf6",
+    "description": "Underrated night market. Probably my fave after Yansan.",
+    "recommended": false,
+    "lat": 25.0291859,
+    "lng": 121.5033495,
+    "coords_fallback": false
+  },
+  {
+    "name": "Ningxia Night Market",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/xDyBkkkNMiUTpGSL6",
+    "description": "A busy night market in the centre of town.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Shih Chia Big Rice Ball",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/7FGmeZzPYWuducJC6",
+    "description": "Glutinous rice dumplings filled with meat served in a broth.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Huang Ji Braised Pork",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/xGA4ZFzrYtfLbvjKA",
+    "description": "Classic Taiwanese fare, 魯肉飯 braised pork rice.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Lane 10 Curry Rice",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/FhzPrnrpydf7zpxY7",
+    "description": "Great Japanese curry joint.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Fujin Tree Taiwanese Cuisine & Champagne",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/RLZWXdwbUgKjdUn1A",
+    "description": "A bit bougie, but simply excellent food. Think refined takes on 熱炒 stir-fy dishes. They offer Taiwanese wine too.",
+    "recommended": false,
+    "lat": 25.0565364,
+    "lng": 121.5501989,
+    "coords_fallback": false
+  },
+  {
+    "name": "azie",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/5LovpQLTbU5PH4DF8",
+    "description": "Upscale take on beef noodle soup inside the Regent hotel restaurant.",
+    "recommended": false,
+    "lat": 25.0541826,
+    "lng": 121.5216691,
+    "coords_fallback": false
+  },
+  {
+    "name": "Tamsui Wenhua A-gei 淡水文化阿給",
+    "city": "台北 Taipei",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/dF3vXTykXgtyG21a9?g_st=ic",
+    "description": "阿給 A-gei is unique to Tamsui. Tofu, mung bean noodles wrapped in surimi. Hop on the Red MRT line to Tamsui and try it.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "本願豆花店-西門 Origin Tofu Pudding",
     "city": "台北 Taipei",
     "category": "Dessert",
     "url": "https://maps.app.goo.gl/ty5CBeyM8nFxUE7F9",
-    "description": "本願豆花店-西門 Origin Tofu Pudding",
+    "description": "",
     "recommended": false,
     "lat": 25.046,
     "lng": 121.517,
@@ -143,6 +561,17 @@
     "coords_fallback": true
   },
   {
+    "name": "La Grotta",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/KG2XuiQAzdcawkLf9?g_st=ic",
+    "description": "Amazing cakes (and tea or coffee).",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
     "name": "庄頭豆花担",
     "city": "台北 Taipei",
     "category": "Dessert",
@@ -154,15 +583,279 @@
     "coords_fallback": false
   },
   {
+    "name": "Yu Pin Yuan Iced and Hot Tangyuan",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/Rh4AN8XcYBaEegih8",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0302368,
+    "lng": 121.5528256,
+    "coords_fallback": false
+  },
+  {
+    "name": "Brother Mun Dessert",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/AzU5bsyvsQm6pry59?g_st=ic",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Longtan Soy Pudding",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/EKyhkhJJ8du3qE7b8?g_st=ic",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "OPIUM FEN-YUAN",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/4DJh7Zvnm2xuum4e7?g_st=ic",
+    "description": "Excellent douhua chain.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Haritts 甜甜圈",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/WmM17j6QiL6qiAMk8?g_st=ic",
+    "description": "My favourite donut shop.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "杏福冰館",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/K91LrSsF63nFfC8q7",
+    "description": "Shaved ice and douhua.",
+    "recommended": false,
+    "lat": 25.0641973,
+    "lng": 121.5232754,
+    "coords_fallback": false
+  },
+  {
+    "name": "冰豆",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/cBELDDiaz8fUcwLU9?g_st=ic",
+    "description": "Douhua.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "杉味豆花",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/LDJpQP8gKRnbEuWj9",
+    "description": "Douhua.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Ten Ten Den Den",
+    "city": "台北 Taipei",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/gPSLf2YCSqrJrdra8",
+    "description": "Fantastic dessert place out in 板橋 Banqiao.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
     "name": "坪林手 赤峰",
     "city": "台北 Taipei",
     "category": "Bubble tea",
     "url": "https://maps.app.goo.gl/pnJhpQ35pjdX1qkn9",
-    "description": "得正 Dezheng Oolong Tea Project",
+    "description": "",
     "recommended": false,
     "lat": 25.054217,
     "lng": 121.517079,
     "coords_fallback": false
+  },
+  {
+    "name": "得正 Dezheng Oolong Tea Project",
+    "city": "台北 Taipei",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/y8NMrwWm695JxvZm6",
+    "description": "Nationwide chain.",
+    "recommended": false,
+    "lat": 25.0272844,
+    "lng": 121.5203963,
+    "coords_fallback": false
+  },
+  {
+    "name": "南海茶道 Nanhai Sado",
+    "city": "台北 Taipei",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/PFUzVLxkQJBBwzWa9",
+    "description": "Probably my fav tea shop with refreshing green & oolong teas. Has more shops in central Taiwan.",
+    "recommended": false,
+    "lat": 25.0861791,
+    "lng": 121.4866983,
+    "coords_fallback": false
+  },
+  {
+    "name": "Black Tea Drink House",
+    "city": "台北 Taipei",
+    "category": "Bubble tea",
+    "url": "https://maps.app.goo.gl/WkS7u6nNNMLomEbR7",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Soma",
+    "city": "台北 Taipei",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/KKUiiUVzR18MpN9S7",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0332073,
+    "lng": 121.5275791,
+    "coords_fallback": false
+  },
+  {
+    "name": "D23 Cafe",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/SDSD41QFWTBTPJgy9",
+    "description": "Great coffee & interior. Owner David’s been around for 10 years.",
+    "recommended": true,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "RUFOUS COFFEE",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/Jrb5hrB9CiswrSxd6",
+    "description": "OG Taipei coffee spot.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Oasis Coffee Roasters",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/UW2yfNPjyoLoU5hn8",
+    "description": "One of several locations.",
+    "recommended": false,
+    "lat": 25.0350064,
+    "lng": 121.5512414,
+    "coords_fallback": false
+  },
+  {
+    "name": "All Day Roasting Company",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/Kr4DTgeZGmSAoxwq9",
+    "description": "Also have cafés in Minsheng and Dadaocheng.",
+    "recommended": false,
+    "lat": 25.0206748,
+    "lng": 121.5241601,
+    "coords_fallback": false
+  },
+  {
+    "name": "Sidoli Radio",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/tAPou4VNHfvpxVwn6",
+    "description": "This place is a vibe.",
+    "recommended": false,
+    "lat": 25.0521642,
+    "lng": 121.5087132,
+    "coords_fallback": false
+  },
+  {
+    "name": "VWI by chadwang",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/zzuNvu9ay95tDpZy7",
+    "description": "Great coffee. Also has a spot at the airport. Perfect for a pre-flight cuppa.",
+    "recommended": true,
+    "lat": 25.0423014,
+    "lng": 121.5381784,
+    "coords_fallback": false
+  },
+  {
+    "name": "BrewBrew",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/oPZvr9c8F44p4wuv7",
+    "description": "Small coffee joint near Zhongshan.",
+    "recommended": false,
+    "lat": 25.0510672,
+    "lng": 121.518251,
+    "coords_fallback": false
+  },
+  {
+    "name": "A Small Place",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/q6pgiticFHomGZgu8",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0258245,
+    "lng": 121.5177763,
+    "coords_fallback": false
+  },
+  {
+    "name": "Simple Kaffa Flagship Store",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/Huf6ezp6xKVH7sHh6",
+    "description": "",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
+  },
+  {
+    "name": "Wangtea Lab",
+    "city": "台北 Taipei",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/H2UDL2YNq5yHEinq6",
+    "description": "Tea bar with lots of exciting ways of brewing tea. You can buy tea next door.",
+    "recommended": true,
+    "lat": 25.0557211,
+    "lng": 121.5105541,
+    "coords_fallback": false
+  },
+  {
+    "name": "Draft Land",
+    "city": "台北 Taipei",
+    "category": "Alcohol",
+    "url": "https://maps.app.goo.gl/1y5toDyjndUtXstF6?g_st=ic",
+    "description": "Cocktails on draft.",
+    "recommended": false,
+    "lat": 25.0478,
+    "lng": 121.5319,
+    "coords_fallback": true
   },
   {
     "name": "掌門精釀啤酒Tap Bistro Zhangmen - 微風松高店",
@@ -176,6 +869,17 @@
     "coords_fallback": false
   },
   {
+    "name": "Hope Square Farmer’s Market",
+    "city": "台北 Taipei",
+    "category": "Miscellaneous",
+    "url": "https://goo.gl/maps/DBZjFzTfnJSimjY17",
+    "description": "Held every weekend on Saturday and Sunday, offering a wide variety of produce from all over the country. Every week a different county is highlighted.",
+    "recommended": false,
+    "lat": 25.0459065,
+    "lng": 121.5264025,
+    "coords_fallback": false
+  },
+  {
     "name": "巷口飯糰",
     "city": "台中 Taichung",
     "category": "Breakfast",
@@ -185,6 +889,17 @@
     "lat": 24.231456,
     "lng": 120.572849,
     "coords_fallback": false
+  },
+  {
+    "name": "Elephants Rock 象堡/手工蛋餅/烘蛋堡/手工堡",
+    "city": "台中 Taichung",
+    "category": "Breakfast",
+    "url": "https://maps.app.goo.gl/Xxkhhq37FmXVxkQG6",
+    "description": "Great 蛋餅 egg pancakes. All homemade. Owner is a great guy.",
+    "recommended": true,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
   },
   {
     "name": "長江早餐店",
@@ -209,6 +924,17 @@
     "coords_fallback": false
   },
   {
+    "name": "Meat & Egg Toast",
+    "city": "台中 Taichung",
+    "category": "Breakfast",
+    "url": "https://maps.app.goo.gl/4Um3sRV52FZpG1m26",
+    "description": "You need to get there early, but damn, are those breakfast sandwiches tasty.",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
+  },
+  {
     "name": "精武路無名燒餅店",
     "city": "台中 Taichung",
     "category": "Breakfast",
@@ -229,6 +955,17 @@
     "lat": 24.161511,
     "lng": 120.648826,
     "coords_fallback": false
+  },
+  {
+    "name": "High Jump Sushi",
+    "city": "台中 Taichung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/tW9gCMKue5VMJD8dA",
+    "description": "Sushi with a hip hop vibe. I like!",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
   },
   {
     "name": "山東老牌水餃牛肉麵",
@@ -297,6 +1034,28 @@
     "coords_fallback": false
   },
   {
+    "name": "SAMI 卅麵",
+    "city": "台中 Taichung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/msnoXLRUhR9Wu3rv8",
+    "description": "Outstanding noodles.",
+    "recommended": true,
+    "lat": 24.15046,
+    "lng": 120.664891,
+    "coords_fallback": false
+  },
+  {
+    "name": "Shin Yuan (West)",
+    "city": "台中 Taichung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/daZ8DHrTrYEC45J69",
+    "description": "Slightly upscale Taiwanese classics. Perfectly executed.",
+    "recommended": true,
+    "lat": 24.1489083,
+    "lng": 120.6675499,
+    "coords_fallback": false
+  },
+  {
     "name": "夜間部爌肉飯",
     "city": "台中 Taichung",
     "category": "Dinner",
@@ -306,6 +1065,17 @@
     "lat": 24.156272,
     "lng": 120.657966,
     "coords_fallback": false
+  },
+  {
+    "name": "Zhengzong Turkey Rice",
+    "city": "台中 Taichung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/yebEi3cYc3EQb8NA6",
+    "description": "Turkey rice is a Chiayi classic. Side dishes are on point too.",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
   },
   {
     "name": "吳記脆皮肉圓",
@@ -418,6 +1188,17 @@
     "coords_fallback": false
   },
   {
+    "name": "Veggienius Dim Sum",
+    "city": "台中 Taichung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/VVwaAF7Hj4xoukT6A",
+    "description": "Vegetarian dim sum.",
+    "recommended": false,
+    "lat": 24.1505454,
+    "lng": 120.6507755,
+    "coords_fallback": false
+  },
+  {
     "name": "小次男 咖哩所",
     "city": "台中 Taichung",
     "category": "Dinner",
@@ -484,6 +1265,72 @@
     "coords_fallback": false
   },
   {
+    "name": "Pa Shih Mesona Jianxing Main Shop",
+    "city": "台中 Taichung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/21Fcsx38YZipkykb8?g_st=ic",
+    "description": "Shaved ice. Be prepared to queue.",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
+  },
+  {
+    "name": "Overture序曲",
+    "city": "台中 Taichung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/j94DcavwjtMDPTb28?g_st=ic",
+    "description": "Dessert shop.",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
+  },
+  {
+    "name": "Chi Cha San Chen",
+    "city": "台中 Taichung",
+    "category": "Bubble tea",
+    "url": "https://maps.app.goo.gl/4V9yRYosrcr12Adg8",
+    "description": "Hipster deluxe tea “concept” shop. You pay for it, but the tea was goooood.",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
+  },
+  {
+    "name": "HAUSINC CAFE",
+    "city": "台中 Taichung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/ASKxTfHUhYJQr4648",
+    "description": "Probably my favourite coffee place in Taichung. Only the playlist could be improved (but that goes for just about every coffee place in Taiwan).",
+    "recommended": false,
+    "lat": 24.1618757,
+    "lng": 120.6678413,
+    "coords_fallback": false
+  },
+  {
+    "name": "Tamp Temper",
+    "city": "台中 Taichung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/S88Gso2FGAYtR7f5A",
+    "description": "Great spot. Has two more spots in town.",
+    "recommended": false,
+    "lat": 24.1555076,
+    "lng": 120.66753,
+    "coords_fallback": false
+  },
+  {
+    "name": "coffee stopover",
+    "city": "台中 Taichung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/krYMakRXHZ1F2GS5A",
+    "description": "Taichung coffee mainstay. Wide variety of beans and brew methods. Another location close by.",
+    "recommended": false,
+    "lat": 24.1480436,
+    "lng": 120.668041,
+    "coords_fallback": false
+  },
+  {
     "name": "仁將 Cafeterry",
     "city": "台中 Taichung",
     "category": "Coffee",
@@ -493,6 +1340,17 @@
     "lat": 24.137797,
     "lng": 120.657696,
     "coords_fallback": false
+  },
+  {
+    "name": "RiceCaff'e米咖啡(不定時公休放在FB頂置貼文)",
+    "city": "台中 Taichung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/4uCZAyXvUXbda5K67",
+    "description": "Great little coffee spot",
+    "recommended": false,
+    "lat": 24.1477,
+    "lng": 120.6736,
+    "coords_fallback": true
   },
   {
     "name": "彰化阿璋肉圓",
@@ -510,7 +1368,7 @@
     "city": "彰化 Changhua",
     "category": "Dinner",
     "url": "https://goo.gl/maps/1NLhQgKbSvzNTzRf8",
-    "description": "📍 社頭 Shetou",
+    "description": "Potsticker joint in 社頭 Shetou.",
     "recommended": false,
     "lat": 23.898719,
     "lng": 120.579827,
@@ -521,7 +1379,7 @@
     "city": "彰化 Changhua",
     "category": "Dinner",
     "url": "https://goo.gl/maps/peWxEkHxq41d8NkT8",
-    "description": "📍員林 Yuanlin",
+    "description": "Sticky rice served with minced pork. Yum!",
     "recommended": true,
     "lat": 23.955148,
     "lng": 120.571215,
@@ -532,18 +1390,18 @@
     "city": "彰化 Changhua",
     "category": "Dinner",
     "url": "https://goo.gl/maps/q4AeTbpN6yDYvmeG7",
-    "description": "📍員林 Yuanlin",
+    "description": "肉圓 Ba-wan, crystal meatball. The Liu family serves the steamed version.",
     "recommended": false,
     "lat": 23.954587,
     "lng": 120.570869,
     "coords_fallback": false
   },
   {
-    "name": "肉圓 Ba-wan, crystal meatball. The Liu family serves the steamed version.",
+    "name": "阿星爌肉飯",
     "city": "彰化 Changhua",
     "category": "Dinner",
     "url": "https://maps.app.goo.gl/JFadgPBdzW7CKuJ16",
-    "description": "阿星爌肉飯",
+    "description": "Braised pork rice. Add an egg and bamboo shoots.",
     "recommended": false,
     "lat": 24.080721,
     "lng": 120.540629,
@@ -565,7 +1423,7 @@
     "city": "彰化 Changhua",
     "category": "Coffee",
     "url": "https://goo.gl/maps/J1yzrTV9buUQrTVB6",
-    "description": "📍社頭 Shetou",
+    "description": "Located in the sock capital of Taiwan, 社頭 Shetou (40 mins from Taichung by train), this might just be my favourite coffee place in Taiwan. A great selection of beans, some fantastic espresso-based drinks and simply outstanding cakes and desserts. Great staff too. And the shop next door sells fantastic socks!",
     "recommended": true,
     "lat": 23.898719,
     "lng": 120.579827,
@@ -576,11 +1434,44 @@
     "city": "彰化 Changhua",
     "category": "Bubble tea",
     "url": "https://maps.app.goo.gl/cDmgeQqfTrENZFLX8?g_st=ic",
-    "description": "📍彰化 Changhua",
+    "description": "Superb tea shop. No frills oolong tea. Perfect on a hot summer’s day.",
     "recommended": true,
     "lat": 24.075,
     "lng": 120.54,
     "coords_fallback": true
+  },
+  {
+    "name": "SMARTFISH",
+    "city": "嘉義 Chiayi",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/axDqdjd1z7YQwFhd8",
+    "description": "Fish stew of Netflix documentary fame. Lives up to the hype though. Has a second branch if the queue is crazy here.",
+    "recommended": true,
+    "lat": 23.4786457,
+    "lng": 120.4484321,
+    "coords_fallback": false
+  },
+  {
+    "name": "嘉義黑人滷熟肉",
+    "city": "嘉義 Chiayi",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/t3a1Tef2y4XY8vF17",
+    "description": "Meat heavy restaurant. Pork tongue, pork blood, sausages. That kind of thing.",
+    "recommended": false,
+    "lat": 23.4761044,
+    "lng": 120.4510294,
+    "coords_fallback": false
+  },
+  {
+    "name": "榮 丼飯 定食Sakae さかえ",
+    "city": "嘉義 Chiayi",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/EArxJHeofRUdcKC7A",
+    "description": "Japanese rice bowls and set menus.",
+    "recommended": false,
+    "lat": 23.477836,
+    "lng": 120.440133,
+    "coords_fallback": false
   },
   {
     "name": "阿娥豆漿豆花",
@@ -602,6 +1493,28 @@
     "recommended": true,
     "lat": 23.477836,
     "lng": 120.447218,
+    "coords_fallback": false
+  },
+  {
+    "name": "Miho Coffee",
+    "city": "嘉義 Chiayi",
+    "category": "Coffee",
+    "url": "https://goo.gl/maps/yhuHT78DUbtdTxQX9",
+    "description": "Exceptional coffee.",
+    "recommended": true,
+    "lat": 23.477683,
+    "lng": 120.4478579,
+    "coords_fallback": false
+  },
+  {
+    "name": "MIMICO COFFEE",
+    "city": "嘉義 Chiayi",
+    "category": "Coffee",
+    "url": "https://goo.gl/maps/b5N5UEUMpmrzc4hN7",
+    "description": "Great little cafe.",
+    "recommended": false,
+    "lat": 23.4821374,
+    "lng": 120.4470866,
     "coords_fallback": false
   },
   {
@@ -638,14 +1551,190 @@
     "coords_fallback": true
   },
   {
-    "name": "粽子 rice dumplings, pair with soup.",
+    "name": "林家肉燥飯",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/JhT13TyVfEY4y7QRA",
+    "description": "Rice with minced pork. Run by rapper 阿雞 Gloj.",
+    "recommended": false,
+    "lat": 23.0280112,
+    "lng": 120.2147377,
+    "coords_fallback": false
+  },
+  {
+    "name": "Zai Fa Hao Hundred-Year Dumplings",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/yLRFWWgCMKSp4eDd9",
+    "description": "粽子 rice dumplings, pair with soup.",
+    "recommended": true,
+    "lat": 22.9943034,
+    "lng": 120.2028205,
+    "coords_fallback": false
+  },
+  {
+    "name": "七誠米粿",
     "city": "台南 Tainan",
     "category": "Dinner",
     "url": "https://maps.app.goo.gl/oUCVGFmcHbgQ5qvN9?g_st=ic",
-    "description": "🔥 七誠米粿",
-    "recommended": false,
+    "description": "Tainan-style rice cakes. Chewy texture. Add an egg and dip it in the broth.",
+    "recommended": true,
     "lat": 22.998942,
     "lng": 120.199576,
+    "coords_fallback": false
+  },
+  {
+    "name": "無名米糕",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/SGZRSDAgbYoeQUjv6",
+    "description": "Same as above.",
+    "recommended": false,
+    "lat": 22.9905509,
+    "lng": 120.2042109,
+    "coords_fallback": false
+  },
+  {
+    "name": "檨仔林阿全碗粿",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/ZqfCH1WmFX1cZRge7",
+    "description": "Minced meat topped with starch in a small bowl. Steamed.",
+    "recommended": false,
+    "lat": 22.9894166,
+    "lng": 120.1992667,
+    "coords_fallback": false
+  },
+  {
+    "name": "阿牛牛肉湯",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/QditkP1bdCBB4m3S6?g_st=ic",
+    "description": "Tainan is famous for its fresh beef soup.",
+    "recommended": true,
+    "lat": 22.9924738,
+    "lng": 120.2251383,
+    "coords_fallback": false
+  },
+  {
+    "name": "阿龍意麵",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/JqwFGkYm3us7hbM2A?g_st=ic",
+    "description": "Another Tainan classic. 意麵 yi noodles.",
+    "recommended": false,
+    "lat": 22.9889623,
+    "lng": 120.2058772,
+    "coords_fallback": false
+  },
+  {
+    "name": "Six Thousand Beef Soup",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/kn1bQmy7F9p6UgFi8?g_st=ic",
+    "description": "Another beef soup place.",
+    "recommended": false,
+    "lat": 22.9999,
+    "lng": 120.2269,
+    "coords_fallback": true
+  },
+  {
+    "name": "邱記阿來水煎包",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/k2jatbzoD7gLxD6m8",
+    "description": "Pan fried and steamed dumplings, aka 水煎包. Usually with Chinese chives and vermicelli filling.",
+    "recommended": false,
+    "lat": 22.9983069,
+    "lng": 120.1961409,
+    "coords_fallback": false
+  },
+  {
+    "name": "阿松割包",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/jBDLvfSvUggcuYLS8?g_st=ic",
+    "description": "Pork buns.",
+    "recommended": true,
+    "lat": 22.998942,
+    "lng": 120.1995762,
+    "coords_fallback": false
+  },
+  {
+    "name": "大菜市包仔王",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/9ogM5pgodVRMFefp7",
+    "description": "Steamed bao paired with various other dishes.",
+    "recommended": false,
+    "lat": 22.9832636,
+    "lng": 120.1976569,
+    "coords_fallback": false
+  },
+  {
+    "name": "夏林臭豆腐",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/rnmxhg54bG9fH9LV8",
+    "description": "Stinky tofu.",
+    "recommended": true,
+    "lat": 22.9826235,
+    "lng": 120.1994324,
+    "coords_fallback": false
+  },
+  {
+    "name": "小茂屋",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/9D4js15qjCLju2iR9",
+    "description": "Noodle joint.",
+    "recommended": true,
+    "lat": 22.9887406,
+    "lng": 120.2097894,
+    "coords_fallback": false
+  },
+  {
+    "name": "永林綜合料理 Yonlin Restaurant",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/vdWZShAnfXHxCPfq9",
+    "description": "Great hotpot place out by the university",
+    "recommended": true,
+    "lat": 22.9954912,
+    "lng": 120.2165287,
+    "coords_fallback": false
+  },
+  {
+    "name": "Win Chang Beef Soup Anping Main Shop",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/o1CCcvnyRf1ARHW28",
+    "description": "Beef soup restaurant with 19.000 reviews.",
+    "recommended": false,
+    "lat": 23.0007903,
+    "lng": 120.1837045,
+    "coords_fallback": false
+  },
+  {
+    "name": "誠仔虎咬豬/台南美食/刈包/涼麵/杏仁茶",
+    "city": "台南 Tainan",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/TFddfqRwFgjVeXQz9",
+    "description": "Cold noodles, 刈包 pork buns and almond milk tea, I can’t think of a better combo.",
+    "recommended": false,
+    "lat": 23.0006208,
+    "lng": 120.1797457,
+    "coords_fallback": false
+  },
+  {
+    "name": "Lily Fruit",
+    "city": "台南 Tainan",
+    "category": "Dessert",
+    "url": "https://goo.gl/maps/n3KmPvvSGtvjKpZu8",
+    "description": "A Tainan institution. Fresh fruit, shaved ice, douhua.",
+    "recommended": true,
+    "lat": 22.9885992,
+    "lng": 120.2052854,
     "coords_fallback": false
   },
   {
@@ -671,6 +1760,17 @@
     "coords_fallback": true
   },
   {
+    "name": "Kadoya",
+    "city": "台南 Tainan",
+    "category": "Dessert",
+    "url": "https://goo.gl/maps/7N96JLtLdkcGLVF78",
+    "description": "Japanese-style dessert shop. Instagram hotspot.",
+    "recommended": false,
+    "lat": 22.9910716,
+    "lng": 120.2123836,
+    "coords_fallback": false
+  },
+  {
     "name": "懷舊小棧杏仁豆腐冰",
     "city": "台南 Tainan",
     "category": "Dessert",
@@ -691,6 +1791,17 @@
     "lat": 22.999,
     "lng": 120.227,
     "coords_fallback": true
+  },
+  {
+    "name": "Dongzhou brown sugar and milk shop",
+    "city": "台南 Tainan",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/kMix8qP3N7y3sc6d7",
+    "description": "Quite simply the best brown sugar boba milk you’ll ever have.",
+    "recommended": true,
+    "lat": 22.9887406,
+    "lng": 120.2097894,
+    "coords_fallback": false
   },
   {
     "name": "波哥文學茶館",
@@ -723,6 +1834,17 @@
     "recommended": false,
     "lat": 22.986174,
     "lng": 120.197353,
+    "coords_fallback": false
+  },
+  {
+    "name": "Gan Dan Cafe",
+    "city": "台南 Tainan",
+    "category": "Coffee",
+    "url": "https://goo.gl/maps/bkoFMYE8dBbVZDJa6",
+    "description": "",
+    "recommended": false,
+    "lat": 22.9945996,
+    "lng": 120.201659,
     "coords_fallback": false
   },
   {
@@ -781,6 +1903,17 @@
     "coords_fallback": false
   },
   {
+    "name": "Gang Yuan Beef Noodle Restaurant",
+    "city": "高雄 Kaohsiung",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/m2USx1vBFEAPnEr2A",
+    "description": "Beef noodle soup.",
+    "recommended": false,
+    "lat": 22.6210904,
+    "lng": 120.286559,
+    "coords_fallback": false
+  },
+  {
     "name": "九色香雞排",
     "city": "高雄 Kaohsiung",
     "category": "Dinner",
@@ -814,6 +1947,17 @@
     "coords_fallback": false
   },
   {
+    "name": "Duck Zhen",
+    "city": "高雄 Kaohsiung",
+    "category": "Dinner",
+    "url": "https://goo.gl/maps/mJVMJV6Fjp577wpQA",
+    "description": "Classic fare, with a duck meat.",
+    "recommended": false,
+    "lat": 22.6254627,
+    "lng": 120.2801405,
+    "coords_fallback": false
+  },
+  {
     "name": "堀江麵",
     "city": "高雄 Kaohsiung",
     "category": "Dinner",
@@ -822,6 +1966,17 @@
     "recommended": false,
     "lat": 22.624839,
     "lng": 120.278894,
+    "coords_fallback": false
+  },
+  {
+    "name": "Lin's Mei-Nung Hakka Rice Noodles Since 1966",
+    "city": "高雄 Kaohsiung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/c8KrzRP39Nwb3gwX6",
+    "description": "Classic Hakka dishes.",
+    "recommended": false,
+    "lat": 22.9003073,
+    "lng": 120.5392528,
     "coords_fallback": false
   },
   {
@@ -840,18 +1995,18 @@
     "city": "高雄 Kaohsiung",
     "category": "Dessert",
     "url": "https://goo.gl/maps/Pg2PWAewmg6No64i9",
-    "description": "Donuts!",
+    "description": "",
     "recommended": true,
     "lat": 22.624839,
     "lng": 120.278894,
     "coords_fallback": false
   },
   {
-    "name": "統帥芋冰城&芋粿",
+    "name": "Donuts!",
     "city": "高雄 Kaohsiung",
     "category": "Dessert",
     "url": "https://maps.app.goo.gl/4Ej6pH6WzmQu6vKWA",
-    "description": "Taro ice cream.",
+    "description": "統帥芋冰城&芋粿",
     "recommended": false,
     "lat": 23.081762,
     "lng": 120.588307,
@@ -866,6 +2021,39 @@
     "recommended": false,
     "lat": 22.618241,
     "lng": 120.291962,
+    "coords_fallback": false
+  },
+  {
+    "name": "Yu Dian Tea",
+    "city": "高雄 Kaohsiung",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/eRnQG2QAcYSF32veA",
+    "description": "",
+    "recommended": false,
+    "lat": 22.6218,
+    "lng": 120.2727007,
+    "coords_fallback": false
+  },
+  {
+    "name": "東洲黑糖奶舖（鹽埕店）",
+    "city": "高雄 Kaohsiung",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/h4XkKaNRxzKyRdYo7",
+    "description": "The best black sugar boba milk, Kaohsiung branch.",
+    "recommended": false,
+    "lat": 22.624839,
+    "lng": 120.2788943,
+    "coords_fallback": false
+  },
+  {
+    "name": "Lao Chiang",
+    "city": "高雄 Kaohsiung",
+    "category": "Bubble tea",
+    "url": "https://goo.gl/maps/b1ZHDDXwVtBu7sHV7",
+    "description": "",
+    "recommended": false,
+    "lat": 22.6183221,
+    "lng": 120.2933761,
     "coords_fallback": false
   },
   {
@@ -935,6 +2123,28 @@
     "coords_fallback": false
   },
   {
+    "name": "Huang's Sweet Mung Bean Soup",
+    "city": "屏東 Pingtung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/XixaxDyN1pz66rcRA",
+    "description": "",
+    "recommended": false,
+    "lat": 22.2017173,
+    "lng": 120.5475268,
+    "coords_fallback": false
+  },
+  {
+    "name": "阿倫冰店 潮州燒冷冰/店休請搜尋粉絲專頁",
+    "city": "屏東 Pingtung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/YRXmo8zGnkSNvZBc8",
+    "description": "",
+    "recommended": false,
+    "lat": 22.5505163,
+    "lng": 120.5375947,
+    "coords_fallback": false
+  },
+  {
     "name": "無名白糖粿",
     "city": "屏東 Pingtung",
     "category": "Dessert",
@@ -946,6 +2156,28 @@
     "coords_fallback": false
   },
   {
+    "name": "Eske Place Coffee House",
+    "city": "屏東 Pingtung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/XdUA8Mp8mZgy5D6p8",
+    "description": "",
+    "recommended": false,
+    "lat": 22.6750354,
+    "lng": 120.4994736,
+    "coords_fallback": false
+  },
+  {
+    "name": "珈琲朗 Coffee Lounge",
+    "city": "屏東 Pingtung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/D6CABfFV8g7YJZeY7",
+    "description": "",
+    "recommended": false,
+    "lat": 22.1966314,
+    "lng": 120.6340441,
+    "coords_fallback": false
+  },
+  {
     "name": "早點大王",
     "city": "台東 Taitung",
     "category": "Breakfast",
@@ -954,6 +2186,28 @@
     "recommended": false,
     "lat": 22.757,
     "lng": 121.144,
+    "coords_fallback": true
+  },
+  {
+    "name": "Ming Kui Breakfast Restaurant",
+    "city": "台東 Taitung",
+    "category": "Breakfast",
+    "url": "https://maps.app.goo.gl/Jo9WUXPBEXBC3m116?g_st=ic",
+    "description": "Great breakfast burgers and sando’s.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "Rong Shu Xia Rice Noodles 榕樹下米苔目",
+    "city": "台東 Taitung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/ExAwLTESCFxqkybbA?g_st=ic",
+    "description": "If you only have time for one dinner in Taitung, go here. Get the classic 招牌米苔目. Short, chewy rice noodles and add fish ball soup and other side dishes..",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
     "coords_fallback": true
   },
   {
@@ -979,6 +2233,50 @@
     "coords_fallback": false
   },
   {
+    "name": "Lin's Stinky Tofu 林家臭豆腐",
+    "city": "台東 Taitung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/AP4ydBwHuvH4fwLV9?g_st=ic",
+    "description": "",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "王子豬排",
+    "city": "台東 Taitung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/Y9MNmRf8FJzTq3FW6?g_st=ic",
+    "description": "Pork chop set meals.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "七里香水煎包",
+    "city": "台東 Taitung",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/p88DRz5SiibrG3yx5?g_st=ic",
+    "description": "Big steam fried dumplings.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "Chan Kee mochi 陳記麻糬",
+    "city": "台東 Taitung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/QzAthcfXGUEVrjCS6?g_st=ic",
+    "description": "Insanely good mochi.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
     "name": "台東古早味寶桑豆花",
     "city": "台東 Taitung",
     "category": "Dessert",
@@ -990,14 +2288,58 @@
     "coords_fallback": true
   },
   {
+    "name": "Asan Shaved Ice 古早味阿桑剉冰",
+    "city": "台東 Taitung",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/ExJB3gHrXDaowH4S6?g_st=ic",
+    "description": "",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
     "name": "目目咖啡",
     "city": "台東 Taitung",
     "category": "Coffee",
     "url": "https://maps.app.goo.gl/szDHuTdBge35WKtp6?g_st=i",
-    "description": "Community Cafe' 墾墨咖啡",
+    "description": "",
     "recommended": false,
     "lat": 22.757,
     "lng": 121.144,
+    "coords_fallback": true
+  },
+  {
+    "name": "Community Cafe' 墾墨咖啡",
+    "city": "台東 Taitung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/NAPDmqoCbY3HoSsT8?g_st=ic",
+    "description": "Great coffee place on the way to the train station.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "允芳茶園",
+    "city": "台東 Taitung",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/6UpPYv8wddBkqMXZ6?g_st=ic",
+    "description": "Great tea shop. Get the 紅烏龍 black oolong tea.",
+    "recommended": false,
+    "lat": 22.7583,
+    "lng": 121.1444,
+    "coords_fallback": true
+  },
+  {
+    "name": "Hua Lien Xiang Bian Shi",
+    "city": "花蓮 Hualien",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/MCgxQpZU9YoGwFQz9",
+    "description": "Classic dumpling place. Get dumplings with broth 扁食湯 or chili oil version 紅油抄手. Add a 小菜 side dish as is customary.",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
     "coords_fallback": true
   },
   {
@@ -1012,6 +2354,17 @@
     "coords_fallback": true
   },
   {
+    "name": "Gong Zheng Bun Store",
+    "city": "花蓮 Hualien",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/FVRaKs5ZGEaeDPDPA",
+    "description": "Soup dumplings, xiaolongbao, steamed dumplings.",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
+    "coords_fallback": true
+  },
+  {
     "name": "一碗小",
     "city": "花蓮 Hualien",
     "category": "Dinner",
@@ -1020,6 +2373,17 @@
     "recommended": true,
     "lat": 23.991,
     "lng": 121.601,
+    "coords_fallback": true
+  },
+  {
+    "name": "Guo Sheng Dipping Sauce Chicken Cutlet",
+    "city": "花蓮 Hualien",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/k9vUieahP1RxJnQj6",
+    "description": "Fried chicken joint in central Hualien.",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
     "coords_fallback": true
   },
   {
@@ -1042,6 +2406,17 @@
     "recommended": false,
     "lat": 23.991,
     "lng": 121.601,
+    "coords_fallback": true
+  },
+  {
+    "name": "CURRY MAN",
+    "city": "花蓮 Hualien",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/sbTU8jREtMoxVBoRA",
+    "description": "Japanese style curry.",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
     "coords_fallback": true
   },
   {
@@ -1089,6 +2464,28 @@
     "coords_fallback": true
   },
   {
+    "name": "Tsai-Ji Tofu Pudding",
+    "city": "花蓮 Hualien",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/q9Zq4mAaRgV36e6k8",
+    "description": "Tofu pudding with all the fittings. Great on a hot day.",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
+    "coords_fallback": true
+  },
+  {
+    "name": "Big Peanut",
+    "city": "花蓮 Hualien",
+    "category": "Dessert",
+    "url": "https://maps.app.goo.gl/2y9svT3q8EMeAUMF6",
+    "description": "",
+    "recommended": false,
+    "lat": 23.9769,
+    "lng": 121.6044,
+    "coords_fallback": true
+  },
+  {
     "name": "半寓咖啡",
     "city": "花蓮 Hualien",
     "category": "Coffee",
@@ -1100,25 +2497,58 @@
     "coords_fallback": false
   },
   {
+    "name": "Giocare義式.手沖咖啡",
+    "city": "花蓮 Hualien",
+    "category": "Coffee",
+    "url": "https://maps.app.goo.gl/nHaVTQh6cAu4NPtE8",
+    "description": "Another excellent coffee place. Check opening hours on Google Maps.",
+    "recommended": true,
+    "lat": 23.9769,
+    "lng": 121.6044,
+    "coords_fallback": true
+  },
+  {
     "name": "山友拉麵",
     "city": "宜蘭 Yilan",
     "category": "Dinner",
     "url": "https://maps.app.goo.gl/8LXwmZKVLjwWJfzX6",
-    "description": "📍 礁溪 Jiaoxi",
+    "description": "Ramen place in Jiaoxi.",
     "recommended": false,
     "lat": 24.81726,
     "lng": 121.768403,
     "coords_fallback": false
   },
   {
+    "name": "Lingbei Kaohao Japanese Grill Tavern",
+    "city": "宜蘭 Yilan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/jT11ehoy4JSvyDLaA",
+    "description": "Japanese izakaya grill joint.",
+    "recommended": false,
+    "lat": 24.7021,
+    "lng": 121.7378,
+    "coords_fallback": true
+  },
+  {
     "name": "綠色臭豆腐",
     "city": "宜蘭 Yilan",
     "category": "Dinner",
     "url": "https://maps.app.goo.gl/95NKQkn8GXTRfwnG6",
-    "description": "📍 礁溪 Jiaoxi",
+    "description": "Stinky tofu stall.",
     "recommended": false,
     "lat": 24.826037,
     "lng": 121.768895,
+    "coords_fallback": false
+  },
+  {
+    "name": "Sinbow Scallion Expert",
+    "city": "宜蘭 Yilan",
+    "category": "Dinner",
+    "url": "https://maps.app.goo.gl/VxPMPtgA7uwGzMSk8",
+    "description": "Delicious scallion pancakes in Jiaoxi.",
+    "recommended": false,
+    "lat": 24.8245086,
+    "lng": 121.7666339,
     "coords_fallback": false
   }
 ]

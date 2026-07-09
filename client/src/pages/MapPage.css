@@ -324,4 +324,11 @@
   .map-main {
     width: 100vw;
   }
+
+  /* Move zoom controls below the hamburger on the right */
+  .leaflet-top.leaflet-left {
+    top: 64px;
+    right: 12px;
+    left: auto;
+  }
 }

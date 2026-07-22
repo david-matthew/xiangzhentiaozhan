@@ -36,7 +36,7 @@ export default function Splash() {
           <button className="splash-app-btn" onClick={() => navigate('/food-guide')}>
             <span className="splash-app-icon">🍜</span>
             <span className="splash-app-text">
-              <span className="splash-app-title">Taiwan Food Guide</span>
+              <span className="splash-app-title">Taiwan Food Guide (work in progress)</span>
               <span className="splash-app-sub">台灣吃貨指南</span>
             </span>
             <span className="splash-app-arrow">→</span>

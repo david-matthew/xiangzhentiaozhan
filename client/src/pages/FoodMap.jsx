@@ -160,8 +160,9 @@ export default function FoodMap() {
       <main className="fm-main">
         <MapContainer center={[23.6, 121.0]} zoom={7} style={{ height: '100%', width: '100%' }}>
           <TileLayer
-            attribution='&copy; <a href="https://carto.com/">Carto</a>'
-            url="https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png"
+            attribution='Tiles &copy; Esri, HERE, Garmin, OpenStreetMap contributors'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={16}
           />
           <FlyToMarker place={flyTarget} />
           {filtered.map((p, i) => (

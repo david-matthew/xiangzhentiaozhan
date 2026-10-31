@@ -14,6 +14,11 @@ export default function About() {
       <div className="about-content">
         <button className="about-back" onClick={() => navigate('/')}>← Back</button>
         <h1 className="about-title">About</h1>
+        <img
+          className="about-photo"
+          src={`${import.meta.env.BASE_URL}david.jpg`}
+          alt="David on his road bike in Taiwan"
+        />
         <p>
           Hi, I&apos;m David! I love cycling and eating my way around Taiwan. With this little
           site I hope to share my favourite cycling routes and food stops on this beautiful

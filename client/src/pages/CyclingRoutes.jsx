@@ -23,7 +23,8 @@ const REGIONS = [
     name: 'Central Taiwan',
     maps: [
       komoot('3375212426', 'albw2n4qAz2sdgikQm36clRFp5q3gmpgcKCOYEDpqqj7lKeDKG'),
-      komoot('3375214878', 'ay3ma2nF75yZvGq7gfcRRqNfdxupcimShEO5Msv2N9qJhljJ8l'),
+      komoot('3375214878', 'aT6BAD4Qt54hxNfe5DC4NLTtKaRNcpkTw76WTMwrHLB6SFNTD1'),
+      komoot('3375245842', 'aH5EOTI4frCjSTcbiZZqgRPsfXtqKPft1NbfVhKGGNUIevRWEr'),
     ],
   },
   { name: 'Southern Taiwan', maps: [] },

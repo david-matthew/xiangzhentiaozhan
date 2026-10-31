@@ -117,3 +117,19 @@
 .splash-app-btn:hover .splash-app-arrow {
   color: #16a34a;
 }
+
+/* ── About link ── */
+.splash-about-link {
+  margin-top: 32px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #9ca3af;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.splash-about-link:hover {
+  color: #16a34a;
+}

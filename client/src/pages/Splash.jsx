@@ -50,6 +50,8 @@ export default function Splash() {
             <span className="splash-app-arrow">→</span>
           </button>
         </div>
+
+        <button className="splash-about-link" onClick={() => navigate('/about')}>About</button>
       </div>
     </div>
   )

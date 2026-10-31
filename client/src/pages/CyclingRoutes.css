@@ -37,7 +37,40 @@
   margin-bottom: 36px;
 }
 
-.cr-region { margin-bottom: 40px; }
+.cr-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  margin: 0 -24px 28px;
+  padding: 12px 24px;
+  background: rgba(249, 250, 251, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.cr-tab {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 99px;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.cr-tab:hover { border-color: #16a34a; color: #16a34a; }
+.cr-tab.active {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.cr-region { margin-bottom: 40px; scroll-margin-top: 72px; }
 
 .cr-region h2 {
   font-size: 18px;

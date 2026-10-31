@@ -25,6 +25,14 @@ export default function Splash() {
         <p className="splash-tagline">odds &amp; ends</p>
 
         <div className="splash-apps">
+          <button className="splash-app-btn" onClick={() => navigate('/cycling-routes')}>
+            <span className="splash-app-icon">🚵🏻</span>
+            <span className="splash-app-text">
+              <span className="splash-app-title">The Best Cycling Routes in Taiwan</span>
+              <span className="splash-app-sub">One day rides from every major city in Taiwan</span>
+            </span>
+            <span className="splash-app-arrow">→</span>
+          </button>
           <button className="splash-app-btn" onClick={() => navigate('/challenge')}>
             <span className="splash-app-icon">🚴</span>
             <span className="splash-app-text">

@@ -1,0 +1,66 @@
+.cr-page {
+  min-height: 100vh;
+  background: #f9fafb;
+  padding: 24px;
+}
+
+.cr-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.cr-back {
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #9ca3af;
+  font-size: 13px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.15s;
+}
+.cr-back:hover { border-color: #d1d5db; color: #6b7280; }
+
+.cr-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.cr-subtitle {
+  font-size: 14px;
+  color: #16a34a;
+  font-weight: 500;
+  margin-top: 6px;
+  margin-bottom: 36px;
+}
+
+.cr-region { margin-bottom: 40px; }
+
+.cr-region h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cr-maps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cr-maps iframe {
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.cr-soon {
+  font-size: 13px;
+  color: #9ca3af;
+}

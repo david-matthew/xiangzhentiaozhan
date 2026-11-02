@@ -17,6 +17,7 @@ const REGIONS = [
       komoot('3190921909', 'awHW2b05iOFm8rj807n8j4tZ0WTKSjPyCGy7RU2PuR7VQCPh6G'),
       komoot('3195904152', 'akN5ZVMRTrPEInCwrazAwNO18H57effV7EheQuq9mLD1mMCEJ6'),
       komoot('3375207368', 'asy6g900uNno4jWNmWQq4KMm6kUoXHs7Stf2aegtBU9RnXPriv'),
+      komoot('3377582833', 'a7SlgBqqfFwrgiJZr22zuB6EAMvaO7o0230c9x9VrJezdXkoAB'),
     ],
   },
   {
@@ -25,9 +26,17 @@ const REGIONS = [
       komoot('3375212426', 'albw2n4qAz2sdgikQm36clRFp5q3gmpgcKCOYEDpqqj7lKeDKG'),
       komoot('3375214878', 'aT6BAD4Qt54hxNfe5DC4NLTtKaRNcpkTw76WTMwrHLB6SFNTD1'),
       komoot('3375245842', 'aH5EOTI4frCjSTcbiZZqgRPsfXtqKPft1NbfVhKGGNUIevRWEr'),
+      komoot('3375469352', 'a5K8ePUkrVCeC2RdDvesl5HNsEV1dHkII91lWIiZWYMW5yRmVy'),
+      komoot('3375771720', 'aDMF8ubbAaqZjS2qMq3zJBPqKC0CCUDhZa1OpHuTmWhpqpikDe'),
+      komoot('3378246156', 'aaoZZyURSM4w21cdXGwDixynBhj3kl2qlD2HThFP5pYlktxQnt'),
     ],
   },
-  { name: 'Southern Taiwan', maps: [] },
+  {
+    name: 'Southern Taiwan',
+    maps: [
+      komoot('3378236306', 'aJqwaRPX7vQDw4SHt3I5ZOIpV5VEZqlB3h5kWlyDeSdS7G3A0O'),
+    ],
+  },
   { name: 'Eastern Taiwan', maps: [] },
 ]
 
